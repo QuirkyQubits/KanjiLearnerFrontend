@@ -1,35 +1,20 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+export default function App() {
 
-function App() {
-  const [count, setCount] = useState(0)
+  const gradientVars = {
+    '--tw-gradient-stops': 'var(--tw-gradient-from), var(--tw-gradient-to)',
+    '--tw-gradient-from': '#f87171',
+    '--tw-gradient-to': '#34d399',
+  } as React.CSSProperties;
 
+  
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div
+      className="min-h-screen bg-gradient-to-br from-red-500 via-yellow-500 to-green-500 flex items-center justify-center"
+      style={gradientVars}
+    >
+      <h1 className="text-4xl text-white font-bold drop-shadow">
+        Gradient is finally working!
+      </h1>
+    </div>
+  );
 }
-
-export default App
