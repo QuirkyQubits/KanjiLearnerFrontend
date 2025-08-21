@@ -1,0 +1,15 @@
+export const SRSStage = {
+  LOCKED: "LOCKED",
+  LESSON: "LESSON",
+  APPRENTICE_1: "APPRENTICE_1",
+  APPRENTICE_2: "APPRENTICE_2",
+  APPRENTICE_3: "APPRENTICE_3",
+  APPRENTICE_4: "APPRENTICE_4",
+  GURU_1: "GURU_1",
+  GURU_2: "GURU_2",
+  MASTER: "MASTER",
+  ENLIGHTENED: "ENLIGHTENED",
+  BURNED: "BURNED",
+} as const;
+
+export type SRSStage = typeof SRSStage[keyof typeof SRSStage];

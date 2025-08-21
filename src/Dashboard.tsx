@@ -1,64 +1,121 @@
 import { useEffect, useState } from "react";
 import { api } from "./lib/axios";
+import { useNavigate } from "react-router-dom";
+import type { DictionaryEntry } from "./models/DictionaryEntry";
+import type { ReviewForecast } from "./models/ReviewForecast";
 
-export default function Dashboard() {
-  const [lessons, setLessons] = useState<any>(null);
-  const [reviews, setReviews] = useState<any>(null);
-  const [mistakes, setMistakes] = useState<any>(null);
-  const [forecast, setForecast] = useState<any>(null);
 
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+interface LessonViewProps {
+  lessons: DictionaryEntry[];
+}
 
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [lessonsRes, reviewsRes, mistakesRes, forecastRes] = await Promise.all([
-          api.get("/lessons"),
-          api.get("/reviews"),
-          api.get("/mistakes"),
-          api.get("/review_forecast", { params: { tz: timezone } }),
-        ]);
+function LessonView(props: LessonViewProps) {
+  const navigate = useNavigate();
 
-        setLessons(lessonsRes.data);
-        setReviews(reviewsRes.data);
-        setMistakes(mistakesRes.data);
-        setForecast(forecastRes.data);
-      } catch (err: any) {
-        setError("Failed to load dashboard data");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [timezone]);
-
-  if (loading) return <div className="p-4">Loading...</div>;
-  if (error) return <div className="p-4 text-red-500">{error}</div>;
+  let lessonCount = props.lessons.length;
 
   return (
-    <div className="p-4 space-y-6">
-      <h1 className="text-2xl font-bold">Dashboard</h1>
-
-      <Section title="Lessons" data={lessons} />
-      <Section title="Reviews" data={reviews} />
-      <Section title="Recent Mistakes" data={mistakes} />
-      <Section title="Review Forecast" data={forecast} />
+    <div>
+      <button onClick={() => navigate("/lessons")}>{`Lessons (${lessonCount}): Start lessons`}</button>
     </div>
   );
 }
 
+interface ReviewsViewProps {
+  reviews: DictionaryEntry[];
+}
+
+
+function ReviewsView(props: ReviewsViewProps) {
+  const navigate = useNavigate();
+
+  let reviewCount = props.reviews.length;
+
+  return (
+    <div>
+      <button onClick={() => navigate("/reviews")}>{`Reviews (${reviewCount}): Start reviews`}</button>
+    </div>
+  );
+}
+
+interface RecentMistakesViewProps {
+  mistakes: DictionaryEntry[];
+}
+
+function RecentMistakesView({ mistakes }: RecentMistakesViewProps) {
+  return (
+    <div>
+      <h3>Recent Mistakes</h3>
+      {mistakes.length === 0 ? (
+        <div>No recent mistakes 🎉</div>
+      ) : (
+        <ul>
+          {mistakes.map((m) => (
+            <li key={m.id}>{m.literal}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+interface ReviewForecastViewProps {
+  forecast: ReviewForecast;
+}
+
+
+function ReviewForecastView({ forecast }: ReviewForecastViewProps) {
+  const isEmpty = Object.keys(forecast).length === 0;
+
+  return (
+    <div>
+      <h3>Review Forecast</h3>
+      {isEmpty ? (
+        <div>No reviews due in the next 24 hours!</div>
+      ) : (
+        <ul>
+          {Object.entries(forecast)
+            .sort(([a], [b]) => Number(a) - Number(b)) // keep hours in order
+            .map(([hour, data]) => (
+              <li key={hour}>
+                {hour}:00 → +{data.count} (total {data.cumulative})
+              </li>
+            ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+
+
+// for testing whether API calls work.
 function Section({ title, data }: { title: string; data: any }) {
   return (
     <div>
-      <h2 className="text-lg font-semibold mb-2">{title}</h2>
-      <pre className="p-2 bg-neutral-100 rounded text-sm overflow-x-auto">
+      <h2>{title}</h2>
+      <pre>
         {JSON.stringify(data, null, 2)}
       </pre>
+    </div>
+  );
+}
+
+interface DashboardProps {
+  lessons: DictionaryEntry[];
+  reviews: DictionaryEntry[];
+  mistakes: DictionaryEntry[];
+  forecast: any;
+}
+
+export default function Dashboard(props: DashboardProps) {
+  return (
+    <div>
+      <LessonView lessons={props.lessons} />
+      <ReviewsView reviews={props.reviews}/>
+      <RecentMistakesView mistakes={props.mistakes}/>
+      <ReviewForecastView forecast={props.forecast}/>
     </div>
   );
 }
