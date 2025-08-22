@@ -1,11 +1,13 @@
-import { useEffect, useState, type JSX } from "react";
+import { useCallback, useEffect, useState, type JSX } from "react";
 import { LoginForm } from "./LoginForm";
 import Dashboard from "./Dashboard";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Runner from "./Runner";
 import { api } from "./lib/axios";
-import type { DictionaryEntry } from "./models/DictionaryEntry";
+import { DictionaryEntry } from "./models/DictionaryEntry";
 import type { ReviewForecast } from "./models/ReviewForecast";
+import { useNavigate } from "react-router-dom";
+
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -19,37 +21,74 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const [lessonsRes, reviewsRes, mistakesRes, forecastRes] = await Promise.all([
+        api.get("/lessons"),
+        api.get("/reviews"),
+        api.get("/mistakes"),
+        api.get("/review_forecast", { params: { tz: timezone } }),
+      ]);
+      setLessons(lessonsRes.data.map((d: any) => new DictionaryEntry(d)));
+      setReviews(reviewsRes.data.map((d: any) => new DictionaryEntry(d)));
+      setMistakes(mistakesRes.data.map((d: any) => new DictionaryEntry(d)));
+      setForecast(forecastRes.data);
+    } catch (err) {
+      setError("Failed to load app data");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  }, [timezone]);
+
+
   // Fetch only after login
   useEffect(() => {
     if (!isLoggedIn) return;
     let cancelled = false;
 
-    const fetchData = async () => {
-      setLoading(true);
-      setError(null);
+    (async () => {
       try {
-        const [lessonsRes, reviewsRes, mistakesRes, forecastRes] = await Promise.all([
-          api.get("/lessons"),
-          api.get("/reviews"),
-          api.get("/mistakes"),
-          api.get("/review_forecast", { params: { tz: timezone } }),
-        ]);
+        await api.get("/csrf/");              // set csrftoken cookie
         if (cancelled) return;
-        setLessons(lessonsRes.data);
-        setReviews(reviewsRes.data);
-        setMistakes(mistakesRes.data);
-        setForecast(forecastRes.data);
-      } catch (err) {
-        if (!cancelled) setError("Failed to load app data");
-        console.error(err);
-      } finally {
-        if (!cancelled) setLoading(false);
+        await fetchData();                    // your existing GETs
+      } catch (e) {
+        console.error("Init failed:", e);
       }
-    };
+    })();
 
-    fetchData();
     return () => { cancelled = true; };
-  }, [isLoggedIn, timezone]);
+  }, [isLoggedIn, fetchData]);
+
+  function LessonsRunnerPage({ entries }: { entries: DictionaryEntry[] }) {
+    const navigate = useNavigate();
+    return (
+      <Runner
+        mode="lesson"
+        entries={entries}
+        onComplete={async () => {
+          await fetchData();         // refresh counts & lists
+          navigate("/dashboard");    // then go back
+        }}
+      />
+    );
+  }
+
+  function ReviewsRunnerPage({ entries }: { entries: DictionaryEntry[] }) {
+    const navigate = useNavigate();
+    return (
+      <Runner
+        mode="review"
+        entries={entries}
+        onComplete={async () => {
+          await fetchData();         // refresh counts & lists
+          navigate("/dashboard");    // then go back
+        }}
+      />
+    );
+  }
 
   function RequireAuth({ children }: { children: JSX.Element }) {
     if (!isLoggedIn) return <Navigate to="/login" replace />;
@@ -107,7 +146,7 @@ export default function App() {
             ) : error ? (
               <div>{error}</div>
             ) : (
-              <Runner mode="lesson" entries={lessons} />
+              <LessonsRunnerPage entries={lessons} />
             )}
           </RequireAuth>
         }
@@ -123,7 +162,7 @@ export default function App() {
             ) : error ? (
               <div>{error}</div>
             ) : (
-              <Runner mode="review" entries={reviews} />
+              <ReviewsRunnerPage entries={reviews} />
             )}
           </RequireAuth>
         }
