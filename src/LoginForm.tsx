@@ -28,21 +28,59 @@ export function LoginForm({ onLogin }: { onLogin?: () => void }) {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <input
-        placeholder="Username"
-        value={username}
-        onChange={e => setUsername(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-      />
-      <button onClick={handleLogin}>Log In</button>
-      {error && <p>{error}</p>}
+    <div className="flex flex-col items-center gap-10 min-h-screen background-color-light">
+      <div className="w-full">
+        <h2 className="text-center mb-4 mt-2 background-color text-lg">Login</h2>
+      </div>
+
+      <div className="flex-grow">
+        <label
+          htmlFor="username"
+          className="mb-10"
+        >
+          Username
+        </label>
+        <br/>
+        <input
+          id="username"
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={e => setUsername(e.target.value)}
+          className="rounded-border background-color mb-6"
+        />
+        <br/>
+
+        <label htmlFor="password">
+          Password
+        </label>
+        <br/>
+        <input
+          id="password"
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          className="rounded-border background-color mb-10"
+        />
+        <br/>
+
+        <button 
+          onClick={handleLogin}
+          className="rounded-border background-color-light mb-4 button-hover-color"
+        >
+          Log In
+        </button>
+        {error && <p>{error}</p>}
+
+        <div className="border-b-1 border-b-gray-400"></div>
+      </div>
+
+      <div className="background-color w-full">
+        <footer className="text-center p-4 text-xs">
+          ©KanjiLearner 2025
+        </footer>
+      </div>
     </div>
   );
 }

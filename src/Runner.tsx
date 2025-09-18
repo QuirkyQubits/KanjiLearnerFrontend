@@ -131,28 +131,47 @@ export default function Runner({ mode, entries, onComplete }: RunnerProps) {
 
   return (
     <div>
+      {/*
+        Debugging block – shows runner header and progress
+        Remove when done testing
+      */}
+      {false && (
       <div>
         <h3>{mode === "lesson" ? "Lesson Runner" : "Review Runner"}</h3>
         <div>
           Progress: {completed}/{state.total} ({progress}%)
         </div>
       </div>
+      )}
 
       {currentEntry && <EntryCard entry={currentEntry} flipped={state.flipped} />}
 
-      <div>
-        <button onClick={() => dispatch({ type: "FLIP" })}>
-          {state.flipped ? "Hide" : "Flip"}
-        </button>
-        <button onClick={handleWrong} disabled={!state.flipped}>
-          Wrong
-        </button>
-        <button onClick={handleRight} disabled={!state.flipped}>
-          Right
-        </button>
+      <div className="flex flex-row w-screen">
+        { !state.flipped &&
+          <button 
+            className="rounded-border background-color-light mb-4 button-hover-color w-screen flex-1"
+            onClick={() => dispatch({ type: "FLIP" })}
+          >
+            {state.flipped ? "Hide" : "Flip"}
+          </button>
+        }
+        { state.flipped &&
+          (<>
+            <button 
+              className="rounded-border bg-pink-100 mb-4 hover:bg-pink-300 flex-1"
+              onClick={handleWrong} disabled={!state.flipped}
+            >
+              Wrong
+            </button>
+            <button
+              className="rounded-border background-color-light mb-4 hover:bg-emerald-300 flex-1"
+              onClick={handleRight} disabled={!state.flipped}
+            >
+              Right
+            </button>
+          </>)
+        }
       </div>
-
-      <div>Flip to reveal. Then choose Right or Wrong. No undo.</div>
     </div>
   );
 }

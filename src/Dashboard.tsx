@@ -17,7 +17,12 @@ function LessonView(props: LessonViewProps) {
 
   return (
     <div>
-      <button onClick={() => navigate("/lessons")}>{`Lessons (${lessonCount}): Start lessons`}</button>
+      <button 
+        onClick={() => navigate("/lessons")}
+        className="rounded-border background-color-light mb-4 button-hover-color p-3 m-3"
+        >
+          {`Lessons (${lessonCount}): Start lessons`}
+      </button>
     </div>
   );
 }
@@ -34,7 +39,12 @@ function ReviewsView(props: ReviewsViewProps) {
 
   return (
     <div>
-      <button onClick={() => navigate("/reviews")}>{`Reviews (${reviewCount}): Start reviews`}</button>
+      <button 
+        onClick={() => navigate("/reviews")}
+        className="rounded-border background-color-light mb-4 button-hover-color p-3 m-3"
+        >
+          {`Reviews (${reviewCount}): Start reviews`}
+      </button>
     </div>
   );
 }
@@ -46,7 +56,7 @@ interface RecentMistakesViewProps {
 function RecentMistakesView({ mistakes }: RecentMistakesViewProps) {
   return (
     <div>
-      <h3>Recent Mistakes</h3>
+      <h3 className="">Recent Mistakes</h3>
       {mistakes.length === 0 ? (
         <div>No recent mistakes 🎉</div>
       ) : (
@@ -111,11 +121,37 @@ interface DashboardProps {
 
 export default function Dashboard(props: DashboardProps) {
   return (
-    <div>
-      <LessonView lessons={props.lessons} />
-      <ReviewsView reviews={props.reviews}/>
-      <RecentMistakesView mistakes={props.mistakes}/>
-      <ReviewForecastView forecast={props.forecast}/>
+    <div className="dashboard flex flex-col min-h-screen max-w-screen">
+      <div className="site-header-container bg-emerald-200 min-h-10 max-h-16">
+        <nav>
+          <div className="flex flex-row">
+            <a href="#Home" className="dashboard-header-link">🏠</a>
+            <a href="#Kanji" className="dashboard-header-link">漢字</a>
+            <a href="#Search" className="dashboard-header-link">🔍</a>
+          </div>
+        </nav>
+      </div>
+      <div className="site-content-container bg-amber-200 flex-1">
+        <div className="lessons-reviews-recent-mistakes bg-emerald-400">
+          <div className="lessons-reviews bg-teal-400">
+            <div className="lessons bg-blue-200">
+              <LessonView lessons={props.lessons} />
+            </div>
+            <div className="reviews bg-emerald-500">
+              <ReviewsView reviews={props.reviews}/>
+            </div>
+          </div>
+          <div className="recent-mistakes">
+            <RecentMistakesView mistakes={props.mistakes}/>
+          </div>
+        </div>
+        <div className="review-forecast bg-teal-300">
+          <ReviewForecastView forecast={props.forecast}/>
+        </div>
+      </div>
+      <div className="site-footer-container bg-emerald-200 min-h-6 max-h-12 text-[clamp(0.5rem,1vw,0.75rem)]">
+        Placeholder dashboard footer
+      </div>
     </div>
   );
 }
