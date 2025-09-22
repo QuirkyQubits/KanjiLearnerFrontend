@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { api } from "./lib/axios";
 import { useNavigate } from "react-router-dom";
-import type { DictionaryEntry } from "./models/DictionaryEntry";
+import type { UserDictionaryEntry } from "./models/UserDictionaryEntry";
 import type { ReviewForecast } from "./models/ReviewForecast";
+import NavBar from "./NavBar";
 
 
 interface LessonViewProps {
-  lessons: DictionaryEntry[];
+  lessons: UserDictionaryEntry[];
 }
 
 
@@ -28,7 +29,7 @@ function LessonView(props: LessonViewProps) {
 }
 
 interface ReviewsViewProps {
-  reviews: DictionaryEntry[];
+  reviews: UserDictionaryEntry[];
 }
 
 
@@ -50,7 +51,7 @@ function ReviewsView(props: ReviewsViewProps) {
 }
 
 interface RecentMistakesViewProps {
-  mistakes: DictionaryEntry[];
+  mistakes: UserDictionaryEntry[];
 }
 
 function RecentMistakesView({ mistakes }: RecentMistakesViewProps) {
@@ -61,8 +62,8 @@ function RecentMistakesView({ mistakes }: RecentMistakesViewProps) {
         <div>No recent mistakes 🎉</div>
       ) : (
         <ul>
-          {mistakes.map((m) => (
-            <li key={m.id}>{m.literal}</li>
+          {mistakes.map((ude) => (
+            <li key={ude.entry.id}>{ude.entry.literal}</li>
           ))}
         </ul>
       )}
@@ -113,24 +114,17 @@ function Section({ title, data }: { title: string; data: any }) {
 }
 
 interface DashboardProps {
-  lessons: DictionaryEntry[];
-  reviews: DictionaryEntry[];
-  mistakes: DictionaryEntry[];
+  lessons: UserDictionaryEntry[];
+  reviews: UserDictionaryEntry[];
+  mistakes: UserDictionaryEntry[];
   forecast: any;
 }
 
 export default function Dashboard(props: DashboardProps) {
   return (
     <div className="dashboard flex flex-col min-h-screen max-w-screen">
-      <div className="site-header-container bg-emerald-200 min-h-10 max-h-16">
-        <nav>
-          <div className="flex flex-row">
-            <a href="#Home" className="dashboard-header-link">🏠</a>
-            <a href="#Kanji" className="dashboard-header-link">漢字</a>
-            <a href="#Search" className="dashboard-header-link">🔍</a>
-          </div>
-        </nav>
-      </div>
+      <NavBar />
+
       <div className="site-content-container bg-amber-200 flex-1">
         <div className="lessons-reviews-recent-mistakes bg-emerald-400">
           <div className="lessons-reviews bg-teal-400">

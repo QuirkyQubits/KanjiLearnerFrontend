@@ -2,6 +2,9 @@ import type { DictionaryEntry } from "./models/DictionaryEntry";
 import Details from "./Details";
 import type { EntryType as EntryTypeT } from "./models/EntryType";
 import { EntryType } from "./models/EntryType";
+import { entryTypeColors } from "./models/constants";
+import { Link } from "react-router-dom";
+import type { UserDictionaryEntry } from "./models/UserDictionaryEntry";
 
 export const typeLabelMap: Record<EntryTypeT, string> = {
   RADICAL: "Radical",
@@ -10,25 +13,20 @@ export const typeLabelMap: Record<EntryTypeT, string> = {
 };
 
 export interface EntryCardProps {
-  entry: DictionaryEntry;
+  ude: UserDictionaryEntry;
   flipped: boolean;
 }
 
-export function EntryCard({ entry, flipped }: EntryCardProps) {
+export function EntryCard({ ude, flipped }: EntryCardProps) {
   // entry.entry_type = EntryType.KANJI; // for debugging
 
+  const entry = ude.entry;  // convenience alias
   const typeLabel = typeLabelMap[entry.entry_type];
-
-  const headerStyles: Record<EntryType, string> = {
-    [EntryType.RADICAL]: "bg-sky-500 text-stone-100",
-    [EntryType.KANJI]: "bg-pink-600 text-stone-100",
-    [EntryType.VOCAB]: "bg-purple-600 text-stone-100",
-  };
 
   // console.log(entry.entry_type);
 
   const renderHeader = () => (
-    <div className={`p-8 ${headerStyles[entry.entry_type] || ""} text-center`}>
+    <div className={`p-8 text-stone-100 ${entryTypeColors[entry.entry_type] || ""} text-center`}>
       <span className="text-9xl text-shadow-sm">{entry.literal}</span>
     </div>
   );
@@ -84,11 +82,13 @@ export function EntryCard({ entry, flipped }: EntryCardProps) {
             )}
 
             {entry.constituents?.length > 0 && (
-              <Details title="Constituents">
-                <ul>
+              <Details title="Constituents" open={true}>
+                <ul className="flex flex-wrap gap-2">
                   {entry.constituents.map((c) => (
-                    <li key={c.id}>
-                      {c.literal} - {c.meaning}
+                    <li key={c.id} className={`inline-block p-3 text-stone-100 ${entryTypeColors[c.entry_type as EntryType] || ""}`}>
+                      <Link to={`/dictionary/${c.id}`} className="block">
+                        {c.literal} - {c.meaning}
+                      </Link>
                     </li>
                   ))}
                 </ul>

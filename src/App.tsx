@@ -4,17 +4,20 @@ import Dashboard from "./Dashboard";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Runner from "./Runner";
 import { api } from "./lib/axios";
-import { DictionaryEntry } from "./models/DictionaryEntry";
+import { UserDictionaryEntry } from "./models/UserDictionaryEntry";
 import type { ReviewForecast } from "./models/ReviewForecast";
 import { useNavigate } from "react-router-dom";
+import SearchResults from "./SearchResults";
+import EntryDetailPage from "./EntryDetail";
+import LearnQueuePage from "./LearnQueue";
 
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const [lessons, setLessons] = useState<DictionaryEntry[]>([]);
-  const [reviews, setReviews] = useState<DictionaryEntry[]>([]);
-  const [mistakes, setMistakes] = useState<DictionaryEntry[]>([]);
+  const [lessons, setLessons] = useState<UserDictionaryEntry[]>([]);
+  const [reviews, setReviews] = useState<UserDictionaryEntry[]>([]);
+  const [mistakes, setMistakes] = useState<UserDictionaryEntry[]>([]);
   const [forecast, setForecast] = useState<ReviewForecast>({});
 
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -31,9 +34,9 @@ export default function App() {
         api.get("/mistakes"),
         api.get("/review_forecast", { params: { tz: timezone } }),
       ]);
-      setLessons(lessonsRes.data.map((d: any) => new DictionaryEntry(d)));
-      setReviews(reviewsRes.data.map((d: any) => new DictionaryEntry(d)));
-      setMistakes(mistakesRes.data.map((d: any) => new DictionaryEntry(d)));
+      setLessons(lessonsRes.data.map((d: any) => new UserDictionaryEntry(d)));
+      setReviews(reviewsRes.data.map((d: any) => new UserDictionaryEntry(d)));
+      setMistakes(mistakesRes.data.map((d: any) => new UserDictionaryEntry(d)));
       setForecast(forecastRes.data);
     } catch (err) {
       setError("Failed to load app data");
@@ -62,7 +65,7 @@ export default function App() {
     return () => { cancelled = true; };
   }, [isLoggedIn, fetchData]);
 
-  function LessonsRunnerPage({ entries }: { entries: DictionaryEntry[] }) {
+  function LessonsRunnerPage({ entries }: { entries: UserDictionaryEntry[] }) {
     const navigate = useNavigate();
     return (
       <Runner
@@ -76,7 +79,7 @@ export default function App() {
     );
   }
 
-  function ReviewsRunnerPage({ entries }: { entries: DictionaryEntry[] }) {
+  function ReviewsRunnerPage({ entries }: { entries: UserDictionaryEntry[] }) {
     const navigate = useNavigate();
     return (
       <Runner
@@ -89,6 +92,16 @@ export default function App() {
       />
     );
   }
+
+
+  function SearchResultsPage() {
+    const navigate = useNavigate();
+    return (
+      <SearchResults
+      />
+    );
+  }
+
 
   function RequireAuth({ children }: { children: JSX.Element }) {
     if (!isLoggedIn) return <Navigate to="/login" replace />;
@@ -164,6 +177,36 @@ export default function App() {
             ) : (
               <ReviewsRunnerPage entries={reviews} />
             )}
+          </RequireAuth>
+        }
+      />
+
+      {/* Search results (protected) */}
+      <Route
+        path="/search"
+        element={
+          <RequireAuth>
+            <SearchResultsPage />
+          </RequireAuth>
+        }
+      />
+
+      {/* Search results (protected) */}
+      <Route
+        path="/dictionary/:id"
+        element={
+          <RequireAuth>
+            <EntryDetailPage />
+          </RequireAuth>
+        }
+      />
+
+      {/* Search results (protected) */}
+      <Route
+        path="/learn-queue"
+        element={
+          <RequireAuth>
+            <LearnQueuePage />
           </RequireAuth>
         }
       />

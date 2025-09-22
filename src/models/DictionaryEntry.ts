@@ -19,9 +19,6 @@ export interface DictionaryEntryData {
   level: number;
   priority: number;
   constituents: Constituent[];
-  srs_stage: SRSStage;
-  next_review_at: string | null;
-  unlocked: boolean;
   meaning_mnemonic: string;
   reading_mnemonic: string;
   parts_of_speech: string[];
@@ -40,9 +37,6 @@ export class DictionaryEntry {
   level: number;
   priority: number;
   constituents: Constituent[];
-  srs_stage: SRSStage;
-  next_review_at: Date | null;
-  unlocked: boolean;
   meaning_mnemonic: string;
   reading_mnemonic: string;
   parts_of_speech: string[];
@@ -60,9 +54,6 @@ export class DictionaryEntry {
     this.level = data.level;
     this.priority = data.priority;
     this.constituents = data.constituents;
-    this.srs_stage = data.srs_stage;
-    this.next_review_at = data.next_review_at ? new Date(data.next_review_at) : null;
-    this.unlocked = data.unlocked;
     this.meaning_mnemonic = data.meaning_mnemonic;
     this.reading_mnemonic = data.reading_mnemonic;
     this.parts_of_speech = data.parts_of_speech;
@@ -84,9 +75,5 @@ export class DictionaryEntry {
 
   hasAudio(): boolean {
     return !!this.audio;
-  }
-
-  isLesson(): boolean {
-    return this.srs_stage === SRSStage.LESSON;
   }
 }

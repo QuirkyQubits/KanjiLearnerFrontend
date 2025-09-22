@@ -1,14 +1,15 @@
 import { useEffect, useReducer } from "react";
 import Deque from "denque";
 import { api } from "./lib/axios";
-import type { DictionaryEntry } from "./models/DictionaryEntry";
+import type { UserDictionaryEntry } from "./models/UserDictionaryEntry";
 import { EntryCard } from "./EntryCard";
+import NavBar from "./NavBar";
 
 export type RunnerMode = "lesson" | "review";
 
 export interface RunnerProps {
   mode: RunnerMode;
-  entries: DictionaryEntry[];
+  entries: UserDictionaryEntry[];
   onComplete?: () => void;
 }
 
@@ -79,7 +80,7 @@ export default function Runner({ mode, entries, onComplete }: RunnerProps) {
   }, [entries]);
 
   const idx = state.queue.peekFront();
-  const currentEntry: DictionaryEntry | null =
+  const currentEntry: UserDictionaryEntry | null =
     idx === undefined || idx < 0 || idx >= entries.length
       ? null
       : entries[idx];
@@ -99,7 +100,7 @@ export default function Runner({ mode, entries, onComplete }: RunnerProps) {
       return;
     }
 
-    promoteEntry(currentEntry.id).catch((err) => {
+    promoteEntry(currentEntry.entry.id).catch((err) => {
       console.error("Failed to promote entry:", err);
     });
 
@@ -112,7 +113,7 @@ export default function Runner({ mode, entries, onComplete }: RunnerProps) {
     }
 
     if (mode === "review") {
-      demoteEntry(currentEntry.id).catch((err) => {
+      demoteEntry(currentEntry.entry.id).catch((err) => {
         console.error("Failed to demote entry:", err);
       });
     }
@@ -144,7 +145,9 @@ export default function Runner({ mode, entries, onComplete }: RunnerProps) {
       </div>
       )}
 
-      {currentEntry && <EntryCard entry={currentEntry} flipped={state.flipped} />}
+      <NavBar />
+      
+      {currentEntry && <EntryCard ude={currentEntry} flipped={state.flipped} />}
 
       <div className="flex flex-row w-screen">
         { !state.flipped &&
