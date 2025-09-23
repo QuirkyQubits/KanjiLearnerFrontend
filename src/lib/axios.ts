@@ -1,4 +1,3 @@
-// lib/axios.ts
 import axios, { AxiosHeaders, type InternalAxiosRequestConfig } from "axios";
 
 export const api = axios.create({

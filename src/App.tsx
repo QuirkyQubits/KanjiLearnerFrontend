@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import SearchResults from "./SearchResults";
 import EntryDetailPage from "./EntryDetail";
 import LearnQueuePage from "./LearnQueue";
+import { RequireAuth } from "./auth/RequireAuth";
 
 
 export default function App() {
@@ -65,6 +66,7 @@ export default function App() {
     return () => { cancelled = true; };
   }, [isLoggedIn, fetchData]);
 
+
   function LessonsRunnerPage({ entries }: { entries: UserDictionaryEntry[] }) {
     const navigate = useNavigate();
     return (
@@ -100,12 +102,6 @@ export default function App() {
       <SearchResults
       />
     );
-  }
-
-
-  function RequireAuth({ children }: { children: JSX.Element }) {
-    if (!isLoggedIn) return <Navigate to="/login" replace />;
-    return children;
   }
 
   return (
