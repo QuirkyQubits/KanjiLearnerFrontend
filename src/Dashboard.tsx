@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { api } from "./lib/axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import type { UserDictionaryEntry } from "./models/UserDictionaryEntry";
 import type { ReviewForecast } from "./models/ReviewForecast";
 import NavBar from "./NavBar";
+import { entryTypeColors } from "./models/constants";
 
 
 interface LessonViewProps {
@@ -13,17 +14,20 @@ interface LessonViewProps {
 
 function LessonView(props: LessonViewProps) {
   const navigate = useNavigate();
-
-  let lessonCount = props.lessons.length;
+  const lessonCount = props.lessons.length;
 
   return (
     <div>
-      <button 
-        onClick={() => navigate("/lessons")}
-        className="rounded-border background-color-light mb-4 button-hover-color p-3 m-3"
+      {lessonCount === 0 ? (
+        <div className="p-2 m-2">No lessons for now! 🎉</div>
+      ) : (
+        <button
+          onClick={() => navigate("/lessons")}
+          className="rounded-border background-color-light mb-4 button-hover-color p-3 m-3"
         >
           {`Lessons (${lessonCount}): Start lessons`}
-      </button>
+        </button>
+      )}
     </div>
   );
 }
@@ -35,17 +39,20 @@ interface ReviewsViewProps {
 
 function ReviewsView(props: ReviewsViewProps) {
   const navigate = useNavigate();
-
-  let reviewCount = props.reviews.length;
+  const reviewCount = props.reviews.length;
 
   return (
     <div>
-      <button 
-        onClick={() => navigate("/reviews")}
-        className="rounded-border background-color-light mb-4 button-hover-color p-3 m-3"
+      {reviewCount === 0 ? (
+        <div className="p-2 m-2">No reviews for now! 🎉</div>
+      ) : (
+        <button
+          onClick={() => navigate("/reviews")}
+          className="rounded-border background-color-light mb-4 button-hover-color p-3 m-3"
         >
           {`Reviews (${reviewCount}): Start reviews`}
-      </button>
+        </button>
+      )}
     </div>
   );
 }
@@ -54,22 +61,38 @@ interface RecentMistakesViewProps {
   mistakes: UserDictionaryEntry[];
 }
 
+
 function RecentMistakesView({ mistakes }: RecentMistakesViewProps) {
   return (
-    <div>
-      <h3 className="">Recent Mistakes</h3>
+    <div className="p-5">
+      <h3 className="mb-2 font-semibold">Recent Mistakes</h3>
       {mistakes.length === 0 ? (
         <div>No recent mistakes 🎉</div>
       ) : (
-        <ul>
-          {mistakes.map((ude) => (
-            <li key={ude.entry.id}>{ude.entry.literal}</li>
-          ))}
-        </ul>
+        <div className="flex flex-wrap gap-2">
+          {mistakes.map((ude) => {
+            const type = ude.entry.entry_type; // RADICAL / KANJI / VOCAB
+            const color = entryTypeColors[type];
+
+            return (
+              <Link
+                key={ude.entry.id}
+                to={`/dictionary/${ude.entry.id}`}
+                title={ude.entry.meaning} // tooltip with full meaning
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`px-3 py-2 rounded shadow text-white font-bold hover:opacity-80 transition ${color}`}
+              >
+                {ude.entry.literal}
+              </Link>
+            );
+          })}
+        </div>
       )}
     </div>
   );
 }
+
 
 interface ReviewForecastViewProps {
   forecast: ReviewForecast;
@@ -98,7 +121,7 @@ function ReviewForecastView({ forecast }: ReviewForecastViewProps) {
   };
 
   return (
-    <div>
+    <div className="p-5">
       <h3>Review Forecast</h3>
       {isEmpty ? (
         <div>No reviews due in the next 7 days 🎉</div>

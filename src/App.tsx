@@ -15,6 +15,7 @@ import { RequireAuth } from "./auth/RequireAuth";
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [checkingSession, setCheckingSession] = useState(true);
 
   const [lessons, setLessons] = useState<UserDictionaryEntry[]>([]);
   const [reviews, setReviews] = useState<UserDictionaryEntry[]>([]);
@@ -48,23 +49,34 @@ export default function App() {
   }, [timezone]);
 
 
-  // Fetch only after login
   useEffect(() => {
-    if (!isLoggedIn) return;
     let cancelled = false;
 
     (async () => {
       try {
-        await api.get("/csrf/");              // set csrftoken cookie
-        if (cancelled) return;
-        await fetchData();                    // your existing GETs
-      } catch (e) {
-        console.error("Init failed:", e);
+        // Ask backend if session cookie is still valid
+        const whoamiRes = await api.get("/whoami"); // or /reviews
+        if (!cancelled && whoamiRes.data?.username) {
+          setIsLoggedIn(true);
+
+          // Always refresh CSRF token before doing writes
+          await api.get("/csrf/");
+          if (!cancelled) {
+            await fetchData();
+          }
+        }
+      } catch (err) {
+        // Not logged in, leave isLoggedIn = false
+        console.log("No active session:", err);
+      } finally {
+        if (!cancelled) setCheckingSession(false);
       }
     })();
 
-    return () => { cancelled = true; };
-  }, [isLoggedIn, fetchData]);
+    return () => {
+      cancelled = true;
+    };
+  }, [fetchData]);
 
 
   function LessonsRunnerPage({ entries }: { entries: UserDictionaryEntry[] }) {
@@ -104,24 +116,22 @@ export default function App() {
     );
   }
 
+  if (checkingSession) {
+    return <div>Loading…</div>;
+  }
+
   return (
     <Routes>
-      {/* Root: send to login or dashboard */}
+      {/* Root: send to login or dashboard once we KNOW session state */}
       <Route
         path="/"
         element={<Navigate to={isLoggedIn ? "/dashboard" : "/login"} replace />}
       />
 
-      {/* Login page */}
+      {/* Login always shows form; it will navigate to /dashboard on success */}
       <Route
         path="/login"
-        element={
-          isLoggedIn ? (
-            <Navigate to="/dashboard" replace />
-          ) : (
-            <LoginForm onLogin={() => setIsLoggedIn(true)} />
-          )
-        }
+        element={<LoginForm onLogin={() => setIsLoggedIn(true)} />}
       />
 
       {/* Dashboard (protected) */}

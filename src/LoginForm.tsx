@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import { api } from "./lib/axios";
+import { useNavigate } from "react-router-dom";
 
 export function LoginForm({ onLogin }: { onLogin?: () => void }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
   // Get CSRF cookie on mount (so Axios can mirror it)
   useEffect(() => {
@@ -21,6 +24,7 @@ export function LoginForm({ onLogin }: { onLogin?: () => void }) {
 
       setError("");
       onLogin?.();
+      navigate("/dashboard");
     } catch (err) {
       console.error("Login or session check failed:", err);
       setError("Login failed. Check your credentials.");
