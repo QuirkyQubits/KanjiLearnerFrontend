@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { api } from "./lib/axios";
+import { api } from "../lib/axios";
 import { EntryCard } from "./EntryCard";
 import NavBar from "./NavBar";
-import { UserDictionaryEntry } from "./models/UserDictionaryEntry";
-import { SRSStage } from "./models/SRSStage";
+import { UserDictionaryEntry } from "../models/UserDictionaryEntry";
+import { SRSStage } from "../models/SRSStage";
 
 
 function isLearningStage(stage: SRSStage | null): boolean {
@@ -54,7 +54,7 @@ export default function EntryDetailPage() {
   return (
     <div>
       <NavBar />
-      <EntryCard ude={data} flipped={true} />
+      <EntryCard ude={data} flipped={true} showSrsStageOpen={true} />
 
       <div className="p-4 add-to-learn-queue">
         {/* Show button only if not planned and still locked */}

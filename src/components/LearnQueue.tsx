@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { api } from "./lib/axios";
-import { UserDictionaryEntry } from "./models/UserDictionaryEntry";
+import { api } from "../lib/axios";
+import { UserDictionaryEntry } from "../models/UserDictionaryEntry";
 import NavBar from "./NavBar";
 import { Link } from "react-router-dom";
-import { entryTypeColors } from "./models/constants";
-import type { EntryType } from "./models/EntryType";
+import { entryTypeColors } from "../models/EntryTypeColors";
+import type { EntryType } from "../models/EntryType";
 
 export default function LearnQueuePage() {
   const { data, isLoading, isError } = useQuery<UserDictionaryEntry[]>({

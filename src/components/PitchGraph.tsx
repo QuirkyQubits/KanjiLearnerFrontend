@@ -1,6 +1,6 @@
 // components/PitchGraph.tsx
 import React from "react";
-import { splitIntoMora } from "./utils/mora";
+import { splitIntoMora } from "../utils/mora";
 
 interface PitchGraphProps {
   reading: string;

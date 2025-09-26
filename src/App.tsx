@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useState, type JSX } from "react";
-import { LoginForm } from "./LoginForm";
-import Dashboard from "./Dashboard";
+import { LoginForm } from "./components/LoginForm";
+import Dashboard from "./components/Dashboard";
 import { Navigate, Route, Routes } from "react-router-dom";
-import Runner from "./Runner";
+import Runner from "./components/Runner";
 import { api } from "./lib/axios";
 import { UserDictionaryEntry } from "./models/UserDictionaryEntry";
 import type { ReviewForecast } from "./models/ReviewForecast";
 import { useNavigate } from "react-router-dom";
-import SearchResults from "./SearchResults";
-import EntryDetailPage from "./EntryDetail";
-import LearnQueuePage from "./LearnQueue";
+import SearchResults from "./components/SearchResults";
+import EntryDetailPage from "./components/EntryDetail";
+import LearnQueuePage from "./components/LearnQueue";
 import { RequireAuth } from "./auth/RequireAuth";
 
 

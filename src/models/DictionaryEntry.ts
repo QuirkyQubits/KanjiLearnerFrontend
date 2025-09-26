@@ -1,4 +1,3 @@
-import { SRSStage } from "./SRSStage";
 import { EntryType } from "./EntryType";
 
 export interface Constituent {

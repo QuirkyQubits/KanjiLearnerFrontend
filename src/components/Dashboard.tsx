@@ -1,10 +1,8 @@
-import { useEffect, useState } from "react";
-import { api } from "./lib/axios";
 import { Link, useNavigate } from "react-router-dom";
-import type { UserDictionaryEntry } from "./models/UserDictionaryEntry";
-import type { ReviewForecast } from "./models/ReviewForecast";
+import type { UserDictionaryEntry } from "../models/UserDictionaryEntry";
+import type { ReviewForecast } from "../models/ReviewForecast";
 import NavBar from "./NavBar";
-import { entryTypeColors } from "./models/constants";
+import { entryTypeColors } from "../models/EntryTypeColors";
 
 
 interface LessonViewProps {
@@ -165,18 +163,6 @@ function ReviewForecastView({ forecast }: ReviewForecastViewProps) {
   );
 }
 
-
-// for testing whether API calls work.
-function Section({ title, data }: { title: string; data: any }) {
-  return (
-    <div>
-      <h2>{title}</h2>
-      <pre>
-        {JSON.stringify(data, null, 2)}
-      </pre>
-    </div>
-  );
-}
 
 interface DashboardProps {
   lessons: UserDictionaryEntry[];

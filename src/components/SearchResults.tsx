@@ -1,10 +1,10 @@
 import { Link, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { api } from "./lib/axios";
-import { entryTypeColors } from "./models/constants";
-import type { EntryType } from "./models/EntryType";
+import { api } from "../lib/axios";
+import { entryTypeColors } from "../models/EntryTypeColors";
+import type { EntryType } from "../models/EntryType";
 import NavBar from "./NavBar";
-import { UserDictionaryEntry } from "./models/UserDictionaryEntry";
+import { UserDictionaryEntry } from "../models/UserDictionaryEntry";
 import { useEffect } from "react";
 
 export default function SearchResults() {

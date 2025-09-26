@@ -1,11 +1,13 @@
-import type { DictionaryEntry } from "./models/DictionaryEntry";
+import type { DictionaryEntry } from "../models/DictionaryEntry";
 import Details from "./Details";
-import type { EntryType as EntryTypeT } from "./models/EntryType";
-import { EntryType } from "./models/EntryType";
-import { entryTypeColors } from "./models/constants";
+import type { EntryType as EntryTypeT } from "../models/EntryType";
+import { EntryType } from "../models/EntryType";
+import { entryTypeColors } from "../models/EntryTypeColors";
 import { Link } from "react-router-dom";
-import type { UserDictionaryEntry } from "./models/UserDictionaryEntry";
+import type { UserDictionaryEntry } from "../models/UserDictionaryEntry";
 import { PitchGraph } from "./PitchGraph";
+import { srsStageDisplayMap } from "../models/SRSStage";
+import { HighlightedText } from "./HighlightedText";
 
 export const typeLabelMap: Record<EntryTypeT, string> = {
   RADICAL: "Radical",
@@ -16,9 +18,10 @@ export const typeLabelMap: Record<EntryTypeT, string> = {
 export interface EntryCardProps {
   ude: UserDictionaryEntry;
   flipped: boolean;
+  showSrsStageOpen?: boolean;
 }
 
-export function EntryCard({ ude, flipped }: EntryCardProps) {
+export function EntryCard({ ude, flipped, showSrsStageOpen = false }: EntryCardProps) {
   // entry.entry_type = EntryType.KANJI; // for debugging
 
   const entry = ude.entry; // convenience alias
@@ -75,12 +78,12 @@ export function EntryCard({ ude, flipped }: EntryCardProps) {
 
             {entry.meaning_mnemonic && (
               <Details title="Meaning mnemonic" open={true}>
-                <p>{entry.meaning_mnemonic}</p>
+                <HighlightedText text={entry.meaning_mnemonic} />
               </Details>
             )}
             {entry.reading_mnemonic && (
               <Details title="Reading mnemonic" open={true}>
-                <p>{entry.reading_mnemonic}</p>
+                <HighlightedText text={entry.reading_mnemonic} />
               </Details>
             )}
 
@@ -104,8 +107,8 @@ export function EntryCard({ ude, flipped }: EntryCardProps) {
             )}
 
             {entry.explanation && (
-              <Details title="Explanation">
-                <p>{entry.explanation}</p>
+              <Details title="Explanation" open={true}>
+                <HighlightedText text={entry.explanation} />
               </Details>
             )}
 
@@ -172,6 +175,18 @@ export function EntryCard({ ude, flipped }: EntryCardProps) {
                 </Details>
               </>
             )}
+
+            <Details title="SRS Stage" open={showSrsStageOpen}>
+              <p>{srsStageDisplayMap[ude.srs_stage]}</p>
+            </Details>
+
+            <Details title="Next Review" open={false}>
+              <p>
+                {ude.next_review_at
+                  ? new Date(ude.next_review_at).toLocaleString()
+                  : "No review scheduled"}
+              </p>
+            </Details>
           </div>
         </div>
       )}

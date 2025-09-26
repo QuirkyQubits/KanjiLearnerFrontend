@@ -1,7 +1,7 @@
 import { useEffect, useReducer } from "react";
 import Deque from "denque";
-import { api } from "./lib/axios";
-import type { UserDictionaryEntry } from "./models/UserDictionaryEntry";
+import { api } from "../lib/axios";
+import type { UserDictionaryEntry } from "../models/UserDictionaryEntry";
 import { EntryCard } from "./EntryCard";
 import NavBar from "./NavBar";
 
@@ -147,7 +147,13 @@ export default function Runner({ mode, entries, onComplete }: RunnerProps) {
 
       <NavBar />
       
-      {currentEntry && <EntryCard ude={currentEntry} flipped={state.flipped} />}
+      {currentEntry && (
+        <EntryCard
+          ude={currentEntry}
+          flipped={state.flipped}
+          showSrsStageOpen={false} 
+        />
+      )}
 
       <div className="flex flex-row w-screen">
         { !state.flipped &&

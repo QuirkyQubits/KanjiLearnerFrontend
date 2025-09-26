@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { api } from "./lib/axios";
+import { api } from "../lib/axios";
 import { useNavigate } from "react-router-dom";
 
 export function LoginForm({ onLogin }: { onLogin?: () => void }) {
