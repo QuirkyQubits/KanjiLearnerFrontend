@@ -5,6 +5,7 @@ import { EntryType } from "./models/EntryType";
 import { entryTypeColors } from "./models/constants";
 import { Link } from "react-router-dom";
 import type { UserDictionaryEntry } from "./models/UserDictionaryEntry";
+import { PitchGraph } from "./PitchGraph";
 
 export const typeLabelMap: Record<EntryTypeT, string> = {
   RADICAL: "Radical",
@@ -20,13 +21,17 @@ export interface EntryCardProps {
 export function EntryCard({ ude, flipped }: EntryCardProps) {
   // entry.entry_type = EntryType.KANJI; // for debugging
 
-  const entry = ude.entry;  // convenience alias
+  const entry = ude.entry; // convenience alias
   const typeLabel = typeLabelMap[entry.entry_type];
 
   // console.log(entry.entry_type);
 
   const renderHeader = () => (
-    <div className={`p-8 text-stone-100 ${entryTypeColors[entry.entry_type] || ""} text-center`}>
+    <div
+      className={`p-8 text-stone-100 ${
+        entryTypeColors[entry.entry_type] || ""
+      } text-center`}
+    >
       <span className="text-9xl text-shadow-sm">{entry.literal}</span>
     </div>
   );
@@ -47,14 +52,14 @@ export function EntryCard({ ude, flipped }: EntryCardProps) {
         <div>
           {renderHeader()}
 
-          <div>
+          <div className="px-8 py-4">
             <Details title="Meaning" open={true}>
               <p>{entry.meaning}</p>
             </Details>
 
             {(entry.kunyomi_readings.length > 0 ||
               entry.onyomi_readings.length > 0 ||
-              entry.readings.length > 0) && (
+              entry.reading) && (
               <Details title="Readings" open={true}>
                 <div>
                   {entry.kunyomi_readings.length > 0 && (
@@ -63,9 +68,7 @@ export function EntryCard({ ude, flipped }: EntryCardProps) {
                   {entry.onyomi_readings.length > 0 && (
                     <div>Onyomi: {entry.onyomi_readings.join(", ")}</div>
                   )}
-                  {entry.readings.length > 0 && (
-                    <div>Other: {entry.readings.join(", ")}</div>
-                  )}
+                  {entry.reading && <div>Reading: {entry.reading}</div>}
                 </div>
               </Details>
             )}
@@ -85,7 +88,12 @@ export function EntryCard({ ude, flipped }: EntryCardProps) {
               <Details title="Constituents" open={true}>
                 <ul className="flex flex-wrap gap-2">
                   {entry.constituents.map((c) => (
-                    <li key={c.id} className={`inline-block p-3 text-stone-100 ${entryTypeColors[c.entry_type as EntryType] || ""}`}>
+                    <li
+                      key={`constituents-${c.id}`}
+                      className={`inline-block p-3 text-stone-100 ${
+                        entryTypeColors[c.entry_type as EntryType] || ""
+                      }`}
+                    >
                       <Link to={`/dictionary/${c.id}`} className="block">
                         {c.literal} - {c.meaning}
                       </Link>
@@ -105,6 +113,64 @@ export function EntryCard({ ude, flipped }: EntryCardProps) {
               <Details title="Audio">
                 <audio controls src={entry.audio} />
               </Details>
+            )}
+
+            {entry.isVocab() && entry.pitch_graphs?.length > 0 && (
+              <Details title="Pitch Accent" open={true}>
+                <div className="flex flex-col gap-4">
+                  {entry.pitch_graphs.map((graph, idx) => (
+                    <PitchGraph key={idx} reading={entry.reading} pattern={graph} />
+                  ))}
+                </div>
+              </Details>
+            )}
+
+            {entry.used_in?.length > 0 && (
+              <>
+                {console.log("🔎 used_in for", entry.literal, entry.used_in)}
+                <Details title="Used In" open={true}>
+                  <ul className="flex flex-wrap gap-2">
+                    {entry.used_in.map((u) => (
+                      <li
+                        key={`used_in-${u.id}`}
+                        className={`inline-block p-3 text-stone-100 ${
+                          entryTypeColors[u.entry_type as EntryType] || ""
+                        }`}
+                      >
+                        <Link to={`/dictionary/${u.id}`} className="block">
+                          {u.literal} - {u.meaning}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </Details>
+              </>
+            )}
+
+            {entry.visually_similar?.length > 0 && (
+              <>
+                {console.log(
+                  "🔎 visually_similar for",
+                  entry.literal,
+                  entry.visually_similar
+                )}
+                <Details title="Visually Similar" open={true}>
+                  <ul className="flex flex-wrap gap-2">
+                    {entry.visually_similar.map((v) => (
+                      <li
+                        key={`visually_similar-${v.id}`}
+                        className={`inline-block p-3 text-stone-100 ${
+                          entryTypeColors[v.entry_type as EntryType] || ""
+                        }`}
+                      >
+                        <Link to={`/dictionary/${v.id}`} className="block">
+                          {v.literal} - {v.meaning}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </Details>
+              </>
             )}
           </div>
         </div>
