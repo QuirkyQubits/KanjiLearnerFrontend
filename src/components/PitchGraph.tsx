@@ -12,7 +12,7 @@ export const PitchGraph: React.FC<PitchGraphProps> = ({ reading, pattern }) => {
 
   const step = 40;
   const padding = 20; // left/right padding
-  const height = 60;
+  const height = 80;
   const width = step * (morae.length - 1) + padding * 2;
 
   const yForPitch = (p: string) => (p === "H" ? 10 : 45);
@@ -32,14 +32,25 @@ export const PitchGraph: React.FC<PitchGraphProps> = ({ reading, pattern }) => {
       <line x1={0} y1={45} x2={width} y2={45} stroke="#ccc" />
 
       {/* pitch polyline */}
-      <polyline fill="none" stroke="black" strokeWidth={2} points={points} />
+      <polyline fill="none" stroke="black" strokeWidth={2} points={points}/>
+
+      {/* dots at each mora */}
+      {pattern.map((p, i) => (
+        <circle
+          key={i}
+          cx={i * step + padding}
+          cy={yForPitch(p)}
+          r={5} // radius of the dot
+          fill="black"
+        />
+      ))}
 
       {/* mora labels */}
       {morae.map((m, i) => (
         <text
           key={i}
           x={i * step + padding}
-          y={height - 5}
+          y={height - 10}
           textAnchor="middle"
           fontSize="14"
         >
