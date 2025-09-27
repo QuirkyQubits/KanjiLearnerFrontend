@@ -64,7 +64,7 @@ export default function SearchResults() {
   const startIndex = (page - 1) * pageSize + 1;
   const endIndex = startIndex + data.results.length - 1;
 
-  console.log("q:", q, "page:", page, "page_size:", pageSize);
+  // console.log("q:", q, "page:", page, "page_size:", pageSize);
 
   return (
     <div className="min-h-screen max-w-screen bg-emerald-200">

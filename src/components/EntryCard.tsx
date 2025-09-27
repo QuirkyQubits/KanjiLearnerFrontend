@@ -1,4 +1,3 @@
-import type { DictionaryEntry } from "../models/DictionaryEntry";
 import Details from "./Details";
 import type { EntryType as EntryTypeT } from "../models/EntryType";
 import { EntryType } from "../models/EntryType";
@@ -24,10 +23,7 @@ export interface EntryCardProps {
 export function EntryCard({ ude, flipped, showSrsStageOpen = false }: EntryCardProps) {
   // entry.entry_type = EntryType.KANJI; // for debugging
 
-  const entry = ude.entry; // convenience alias
-  const typeLabel = typeLabelMap[entry.entry_type];
-
-  // console.log(entry.entry_type);
+  const entry = ude.entry;
 
   const renderHeader = () => (
     <div
@@ -130,7 +126,6 @@ export function EntryCard({ ude, flipped, showSrsStageOpen = false }: EntryCardP
 
             {entry.used_in?.length > 0 && (
               <>
-                {console.log("🔎 used_in for", entry.literal, entry.used_in)}
                 <Details title="Used In" open={true}>
                   <ul className="flex flex-wrap gap-2">
                     {entry.used_in.map((u) => (
@@ -152,11 +147,6 @@ export function EntryCard({ ude, flipped, showSrsStageOpen = false }: EntryCardP
 
             {entry.visually_similar?.length > 0 && (
               <>
-                {console.log(
-                  "🔎 visually_similar for",
-                  entry.literal,
-                  entry.visually_similar
-                )}
                 <Details title="Visually Similar" open={true}>
                   <ul className="flex flex-wrap gap-2">
                     {entry.visually_similar.map((v) => (

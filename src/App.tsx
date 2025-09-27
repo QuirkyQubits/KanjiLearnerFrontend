@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, type JSX } from "react";
+import { useCallback, useEffect, useState} from "react";
 import { LoginForm } from "./components/LoginForm";
 import Dashboard from "./components/Dashboard";
 import { Navigate, Route, Routes } from "react-router-dom";
@@ -109,7 +109,6 @@ export default function App() {
 
 
   function SearchResultsPage() {
-    const navigate = useNavigate();
     return (
       <SearchResults
       />
