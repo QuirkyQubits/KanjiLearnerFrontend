@@ -13,26 +13,43 @@ export default function NavBar() {
     }
   };
 
+  const handleLogout = () => {
+    navigate("/login");
+
+    // TODO: add actual logic here for a more complete implementation
+  };
+
   return (
     <>
       {/* Top nav bar */}
       <div className="site-header-container bg-emerald-200 min-h-10 max-h-16">
         <nav>
-          <div className="flex flex-row">
-            <Link to="/dashboard" className="dashboard-header-link">
-              🏠
-            </Link>
-            <button
-              type="button"
-              className="dashboard-header-link"
-              onClick={() => setShowSearch((prev) => !prev)}
-            >
-              🔍
-            </button>
-            
-            <Link to="/learn-queue" className="dashboard-header-link">
-              ⭐ 
-            </Link>
+          <div className="flex flex-row items-center justify-between px-2">
+            <div className="flex flex-row">
+              <Link to="/dashboard" className="dashboard-header-link">
+                🏠
+              </Link>
+              <button
+                type="button"
+                className="dashboard-header-link"
+                onClick={() => setShowSearch((prev) => !prev)}
+              >
+                🔍
+              </button>
+              
+              <Link to="/learn-queue" className="dashboard-header-link">
+                ⭐ 
+              </Link>
+            </div>
+
+            <div className="">
+              <button
+                onClick={handleLogout}
+                className="dashboard-header-link"
+              >
+                Logout ↩️
+              </button>
+            </div>
           </div>
         </nav>
       </div>
