@@ -48,6 +48,11 @@ export default function App() {
     }
   }, [timezone]);
 
+  useEffect(() => {
+    // Always initialize CSRF cookie once per page load
+    api.get("/csrf/")
+      .catch(err => console.error("CSRF init failed:", err));
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -59,14 +64,11 @@ export default function App() {
         if (!cancelled && whoamiRes.data?.username) {
           setIsLoggedIn(true);
 
-          // Always refresh CSRF token before doing writes
-          await api.get("/csrf/");
           if (!cancelled) {
             await fetchData();
           }
         }
       } catch (err) {
-        // Not logged in, leave isLoggedIn = false
         console.log("No active session:", err);
       } finally {
         if (!cancelled) setCheckingSession(false);
