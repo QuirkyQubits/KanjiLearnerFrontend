@@ -14,11 +14,22 @@ export interface RunnerProps {
 }
 
 async function promoteEntry(entryId: number) {
+  console.log("cookies at promoteEntry:", document.cookie);
+
+  // refresh CSRF token cookie to be safe
+  await api.get("/csrf/");
+
   await api.post("/result/success/", { entry_id: entryId });
 }
+
 async function demoteEntry(entryId: number) {
+  console.log("cookies at demoteEntry:", document.cookie);
+
+  await api.get("/csrf/");
+
   await api.post("/result/failure/", { entry_id: entryId });
 }
+
 
 interface State {
   queue: Deque<number>;
