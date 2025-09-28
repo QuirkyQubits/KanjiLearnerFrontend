@@ -16,6 +16,10 @@ export function LoginForm({ onLogin }: { onLogin?: () => void }) {
 
   const handleLogin = async () => {
     try {
+      // ensure CSRF cookie exists
+      await api.get("/csrf/");
+      console.log("cookies before login:", document.cookie);
+
       // 1) Login (Axios interceptor sets X-CSRFToken for POST)
       await api.post("/login/", { username, password });
 

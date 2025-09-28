@@ -14,10 +14,9 @@ export interface RunnerProps {
 }
 
 async function promoteEntry(entryId: number) {
-  console.log("cookies at promoteEntry:", document.cookie);
-
-  // refresh CSRF token cookie to be safe
+  // force Django to re-set csrftoken
   await api.get("/csrf/");
+  console.log("cookies at promoteEntry:", document.cookie);
 
   await api.post("/result/success/", { entry_id: entryId });
 }
