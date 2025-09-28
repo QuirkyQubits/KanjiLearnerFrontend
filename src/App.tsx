@@ -3,7 +3,7 @@ import { LoginForm } from "./components/LoginForm";
 import Dashboard from "./components/Dashboard";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Runner from "./components/Runner";
-import { api } from "./lib/axios";
+import { api, initCsrf } from "./lib/axios";
 import { UserDictionaryEntry } from "./models/UserDictionaryEntry";
 import type { ReviewForecast } from "./models/ReviewForecast";
 import { useNavigate } from "react-router-dom";
@@ -49,10 +49,10 @@ export default function App() {
   }, [timezone]);
 
   useEffect(() => {
-    // Always initialize CSRF cookie once per page load
-    api.get("/csrf/")
-      .catch(err => console.error("CSRF init failed:", err));
+    // Initialize CSRF once per app load
+    initCsrf();
   }, []);
+
 
   useEffect(() => {
     let cancelled = false;
