@@ -16,21 +16,13 @@ export function LoginForm({ onLogin }: { onLogin?: () => void }) {
 
   const handleLogin = async () => {
     try {
-      // ensure CSRF cookie exists
-      await api.get("/csrf/");
-      console.log("cookies before login:", document.cookie);
-
-      // 1) Login (Axios interceptor sets X-CSRFToken for POST)
       await api.post("/login/", { username, password });
 
-      // 2) Sanity-check that the session is active by hitting an auth-protected GET
-      await api.get("/reviews"); // or /lessons, any endpoint requiring auth
-
       setError("");
-      onLogin?.();
+      onLogin?.();  // sets isLoggedIn=true in App
       navigate("/dashboard");
     } catch (err) {
-      console.error("Login or session check failed:", err);
+      console.error("Login failed:", err);
       setError("Login failed. Check your credentials.");
     }
   };

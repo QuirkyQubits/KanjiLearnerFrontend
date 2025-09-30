@@ -139,7 +139,7 @@ export default function App() {
       <Route
         path="/dashboard"
         element={
-          <RequireAuth>
+          <RequireAuth isLoggedIn={isLoggedIn}>
             {loading ? (
               <div>Loading...</div>
             ) : error ? (
@@ -160,7 +160,7 @@ export default function App() {
       <Route
         path="/lessons"
         element={
-          <RequireAuth>
+          <RequireAuth isLoggedIn={isLoggedIn}>
             {loading ? (
               <div>Loading...</div>
             ) : error ? (
@@ -176,7 +176,7 @@ export default function App() {
       <Route
         path="/reviews"
         element={
-          <RequireAuth>
+          <RequireAuth isLoggedIn={isLoggedIn}>
             {loading ? (
               <div>Loading...</div>
             ) : error ? (
@@ -192,7 +192,7 @@ export default function App() {
       <Route
         path="/search"
         element={
-          <RequireAuth>
+          <RequireAuth isLoggedIn={isLoggedIn}>
             <SearchResultsPage />
           </RequireAuth>
         }
@@ -202,7 +202,7 @@ export default function App() {
       <Route
         path="/dictionary/:id"
         element={
-          <RequireAuth>
+          <RequireAuth isLoggedIn={isLoggedIn}>
             <EntryDetailPage />
           </RequireAuth>
         }
@@ -212,7 +212,7 @@ export default function App() {
       <Route
         path="/learn-queue"
         element={
-          <RequireAuth>
+          <RequireAuth isLoggedIn={isLoggedIn}>
             <LearnQueuePage />
           </RequireAuth>
         }

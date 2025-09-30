@@ -61,14 +61,18 @@ interface RecentMistakesViewProps {
 
 
 function RecentMistakesView({ mistakes }: RecentMistakesViewProps) {
+  const uniqueMistakes = Array.from(new Map(
+    mistakes.map(m => [m.entry.id, m])
+  ).values());
+
   return (
     <div className="p-5">
       <h3 className="mb-2 font-semibold">Recent Mistakes</h3>
-      {mistakes.length === 0 ? (
+      {uniqueMistakes.length === 0 ? (
         <div>No recent mistakes 🎉</div>
       ) : (
         <div className="flex flex-wrap gap-2">
-          {mistakes.map((ude) => {
+          {uniqueMistakes.map((ude) => {
             const type = ude.entry.entry_type; // RADICAL / KANJI / VOCAB
             const color = entryTypeColors[type];
 

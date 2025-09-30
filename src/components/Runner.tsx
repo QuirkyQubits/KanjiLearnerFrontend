@@ -14,18 +14,10 @@ export interface RunnerProps {
 }
 
 async function promoteEntry(entryId: number) {
-  // force Django to re-set csrftoken
-  await api.get("/csrf/");
-  console.log("cookies at promoteEntry:", document.cookie);
-
   await api.post("/result/success/", { entry_id: entryId });
 }
 
 async function demoteEntry(entryId: number) {
-  console.log("cookies at demoteEntry:", document.cookie);
-
-  await api.get("/csrf/");
-
   await api.post("/result/failure/", { entry_id: entryId });
 }
 
