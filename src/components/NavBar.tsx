@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { api } from "../lib/axios";
 
 export default function NavBar() {
   const [showSearch, setShowSearch] = useState(false);
@@ -13,10 +14,15 @@ export default function NavBar() {
     }
   };
 
-  const handleLogout = () => {
-    navigate("/login");
-
-    // TODO: add actual logic here for a more complete implementation
+  const handleLogout = async () => {
+    try {
+      await api.post("/logout/");
+    } catch (err) {
+      console.error("Logout failed:", err);
+    } finally {
+      // Always redirect, even if API fails
+      navigate("/login");
+    }
   };
 
   return (
