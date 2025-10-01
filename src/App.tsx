@@ -11,6 +11,8 @@ import SearchResults from "./components/SearchResults";
 import EntryDetailPage from "./components/EntryDetail";
 import LearnQueuePage from "./components/LearnQueue";
 import { RequireAuth } from "./auth/RequireAuth";
+import Register from "./components/Register";
+import VerifyEmail from "./components/VerifyEmail";
 
 
 export default function App() {
@@ -216,6 +218,16 @@ export default function App() {
             <LearnQueuePage />
           </RequireAuth>
         }
+      />
+
+      <Route
+        path="/register"
+        element={<Register />}
+      />
+
+      <Route
+        path="/verify-email/:uid/:token"
+        element={<VerifyEmail />}
       />
     </Routes>
   );

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { api } from "../lib/axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export function LoginForm({ onLogin }: { onLogin?: () => void }) {
   const [username, setUsername] = useState("");
@@ -74,6 +74,13 @@ export function LoginForm({ onLogin }: { onLogin?: () => void }) {
         {error && <p>{error}</p>}
 
         <div className="border-b-1 border-b-gray-400"></div>
+
+        <p className="text-sm text-center">
+          Don't have an account?{" "}
+          <Link to="/register" className="text-blue-600 hover:underline">
+            Register here
+          </Link>
+        </p>
       </div>
 
       <div className="background-color w-full">
