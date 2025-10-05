@@ -1,12 +1,25 @@
 import { Link, useNavigate } from "react-router-dom";
-import type { UserDictionaryEntry } from "../models/UserDictionaryEntry";
+import { UserDictionaryEntry } from "../models/UserDictionaryEntry";
 import type { ReviewForecast } from "../models/ReviewForecast";
 import NavBar from "./NavBar";
 import { entryTypeColors } from "../models/EntryTypeColors";
+import { useQuery } from "@tanstack/react-query";
+import { api } from "../lib/axios";
 
 
 interface LessonViewProps {
   lessons: UserDictionaryEntry[];
+}
+
+
+function useLessons() {
+  return useQuery<UserDictionaryEntry[]>({
+    queryKey: ["lessons"],
+    queryFn: async () => {
+      const res = await api.get("/lessons");
+      return res.data.map((d: any) => new UserDictionaryEntry(d));
+    },
+  });
 }
 
 
@@ -169,13 +182,14 @@ function ReviewForecastView({ forecast }: ReviewForecastViewProps) {
 
 
 interface DashboardProps {
-  lessons: UserDictionaryEntry[];
   reviews: UserDictionaryEntry[];
   mistakes: UserDictionaryEntry[];
   forecast: any;
 }
 
 export default function Dashboard(props: DashboardProps) {
+  const { data: lessons, isLoading: lessonsLoading } = useLessons();
+
   return (
     <div className="dashboard flex flex-col min-h-screen max-w-screen">
       <NavBar />
@@ -184,7 +198,11 @@ export default function Dashboard(props: DashboardProps) {
         <div className="lessons-reviews-recent-mistakes bg-emerald-400">
           <div className="lessons-reviews bg-teal-400">
             <div className="lessons bg-blue-200">
-              <LessonView lessons={props.lessons} />
+              {lessonsLoading ? (
+                <div>Loading lessons…</div>
+              ) : (
+                <LessonView lessons={lessons ?? []} />
+              )}
             </div>
             <div className="reviews bg-emerald-500">
               <ReviewsView reviews={props.reviews}/>

@@ -148,7 +148,6 @@ export default function App() {
               <div>{error}</div>
             ) : (
               <Dashboard
-                lessons={lessons}
                 reviews={reviews}
                 mistakes={mistakes}
                 forecast={forecast}
