@@ -1,11 +1,9 @@
-import { useCallback, useEffect, useState} from "react";
+import { useEffect, useState} from "react";
 import { LoginForm } from "./components/LoginForm";
 import Dashboard from "./components/Dashboard";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Runner from "./components/Runner";
 import { api, initCsrf } from "./lib/axios";
-import { UserDictionaryEntry } from "./models/UserDictionaryEntry";
-import type { ReviewForecast } from "./models/ReviewForecast";
 import { useNavigate } from "react-router-dom";
 import SearchResults from "./components/SearchResults";
 import EntryDetailPage from "./components/EntryDetail";
@@ -13,42 +11,13 @@ import LearnQueuePage from "./components/LearnQueue";
 import { RequireAuth } from "./auth/RequireAuth";
 import Register from "./components/Register";
 import VerifyEmail from "./components/VerifyEmail";
+import { useLessons, useReviews } from "./hooks/useAppData";
+import { useQueryClient } from "@tanstack/react-query";
 
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [checkingSession, setCheckingSession] = useState(true);
-
-  const [lessons, setLessons] = useState<UserDictionaryEntry[]>([]);
-  const [reviews, setReviews] = useState<UserDictionaryEntry[]>([]);
-  const [mistakes, setMistakes] = useState<UserDictionaryEntry[]>([]);
-  const [forecast, setForecast] = useState<ReviewForecast>({});
-
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const [lessonsRes, reviewsRes, mistakesRes, forecastRes] = await Promise.all([
-        api.get("/lessons"),
-        api.get("/reviews"),
-        api.get("/mistakes"),
-        api.get("/review_forecast", { params: { tz: timezone } }),
-      ]);
-      setLessons(lessonsRes.data.map((d: any) => new UserDictionaryEntry(d)));
-      setReviews(reviewsRes.data.map((d: any) => new UserDictionaryEntry(d)));
-      setMistakes(mistakesRes.data.map((d: any) => new UserDictionaryEntry(d)));
-      setForecast(forecastRes.data);
-    } catch (err) {
-      setError("Failed to load app data");
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  }, [timezone]);
 
   useEffect(() => {
     // Initialize CSRF once per app load
@@ -65,10 +34,6 @@ export default function App() {
         const whoamiRes = await api.get("/whoami"); // or /reviews
         if (!cancelled && whoamiRes.data?.username) {
           setIsLoggedIn(true);
-
-          if (!cancelled) {
-            await fetchData();
-          }
         }
       } catch (err) {
         console.log("No active session:", err);
@@ -80,32 +45,55 @@ export default function App() {
     return () => {
       cancelled = true;
     };
-  }, [fetchData]);
+  }, []);
 
 
-  function LessonsRunnerPage({ entries }: { entries: UserDictionaryEntry[] }) {
+  function LessonsRunnerPage() {
+    const { data: lessons, isLoading } = useLessons();
+    const queryClient = useQueryClient();
     const navigate = useNavigate();
+
+    if (isLoading) {
+      return <div>Loading lessons…</div>;
+    }
+
     return (
       <Runner
         mode="lesson"
-        entries={entries}
+        entries={lessons ?? []}
         onComplete={async () => {
-          await fetchData();         // refresh counts & lists
-          navigate("/dashboard");    // then go back
+          await Promise.all([
+            queryClient.invalidateQueries({ queryKey: ["lessons"] }),
+            queryClient.invalidateQueries({ queryKey: ["reviews"] }),
+            queryClient.invalidateQueries({ queryKey: ["mistakes"] }),
+            queryClient.invalidateQueries({ queryKey: ["review-forecast"] }),
+          ]);
+          navigate("/dashboard");
         }}
       />
     );
   }
 
-  function ReviewsRunnerPage({ entries }: { entries: UserDictionaryEntry[] }) {
+  function ReviewsRunnerPage() {
+    const { data: reviews, isLoading } = useReviews();
+    const queryClient = useQueryClient();
     const navigate = useNavigate();
+    
+    if (isLoading) {
+      return <div>Loading reviews…</div>;
+    }
+
     return (
       <Runner
         mode="review"
-        entries={entries}
+        entries={reviews ?? []}
         onComplete={async () => {
-          await fetchData();         // refresh counts & lists
-          navigate("/dashboard");    // then go back
+          await Promise.all([
+            queryClient.invalidateQueries({ queryKey: ["reviews"] }),
+            queryClient.invalidateQueries({ queryKey: ["mistakes"] }),
+            queryClient.invalidateQueries({ queryKey: ["review-forecast"] }),
+          ]);
+          navigate("/dashboard");
         }}
       />
     );
@@ -142,17 +130,7 @@ export default function App() {
         path="/dashboard"
         element={
           <RequireAuth isLoggedIn={isLoggedIn}>
-            {loading ? (
-              <div>Loading...</div>
-            ) : error ? (
-              <div>{error}</div>
-            ) : (
-              <Dashboard
-                reviews={reviews}
-                mistakes={mistakes}
-                forecast={forecast}
-              />
-            )}
+              <Dashboard />
           </RequireAuth>
         }
       />
@@ -162,13 +140,7 @@ export default function App() {
         path="/lessons"
         element={
           <RequireAuth isLoggedIn={isLoggedIn}>
-            {loading ? (
-              <div>Loading...</div>
-            ) : error ? (
-              <div>{error}</div>
-            ) : (
-              <LessonsRunnerPage entries={lessons} />
-            )}
+            <LessonsRunnerPage />
           </RequireAuth>
         }
       />
@@ -178,13 +150,7 @@ export default function App() {
         path="/reviews"
         element={
           <RequireAuth isLoggedIn={isLoggedIn}>
-            {loading ? (
-              <div>Loading...</div>
-            ) : error ? (
-              <div>{error}</div>
-            ) : (
-              <ReviewsRunnerPage entries={reviews} />
-            )}
+            <ReviewsRunnerPage />
           </RequireAuth>
         }
       />

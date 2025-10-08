@@ -3,25 +3,11 @@ import { UserDictionaryEntry } from "../models/UserDictionaryEntry";
 import type { ReviewForecast } from "../models/ReviewForecast";
 import NavBar from "./NavBar";
 import { entryTypeColors } from "../models/EntryTypeColors";
-import { useQuery } from "@tanstack/react-query";
-import { api } from "../lib/axios";
-
+import { useForecast, useLessons, useMistakes, useReviews } from "../hooks/useAppData";
 
 interface LessonViewProps {
   lessons: UserDictionaryEntry[];
 }
-
-
-function useLessons() {
-  return useQuery<UserDictionaryEntry[]>({
-    queryKey: ["lessons"],
-    queryFn: async () => {
-      const res = await api.get("/lessons");
-      return res.data.map((d: any) => new UserDictionaryEntry(d));
-    },
-  });
-}
-
 
 function LessonView(props: LessonViewProps) {
   const navigate = useNavigate();
@@ -181,14 +167,13 @@ function ReviewForecastView({ forecast }: ReviewForecastViewProps) {
 }
 
 
-interface DashboardProps {
-  reviews: UserDictionaryEntry[];
-  mistakes: UserDictionaryEntry[];
-  forecast: any;
-}
+export default function Dashboard() {
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-export default function Dashboard(props: DashboardProps) {
   const { data: lessons, isLoading: lessonsLoading } = useLessons();
+  const { data: reviews, isLoading: reviewsLoading } = useReviews();
+  const { data: mistakes, isLoading: mistakesLoading } = useMistakes();
+  const { data: forecast, isLoading: forecastLoading } = useForecast(timezone);
 
   return (
     <div className="dashboard flex flex-col min-h-screen max-w-screen">
@@ -205,15 +190,27 @@ export default function Dashboard(props: DashboardProps) {
               )}
             </div>
             <div className="reviews bg-emerald-500">
-              <ReviewsView reviews={props.reviews}/>
+              {reviewsLoading ? (
+                <div>Loading reviews…</div>
+              ) : (
+                <ReviewsView reviews={reviews ?? []} />
+              )}
             </div>
           </div>
           <div className="recent-mistakes">
-            <RecentMistakesView mistakes={props.mistakes}/>
+            {mistakesLoading ? (
+              <div>Loading mistakes…</div>
+            ) : (
+              <RecentMistakesView mistakes={mistakes ?? []} />
+            )}
           </div>
         </div>
         <div className="review-forecast bg-teal-300">
-          <ReviewForecastView forecast={props.forecast}/>
+          {forecastLoading ? (
+            <div>Loading forecast…</div>
+          ) : (
+            <ReviewForecastView forecast={forecast ?? {}} />
+          )}
         </div>
       </div>
       <div className="site-footer-container bg-emerald-200 min-h-6 max-h-12 text-[clamp(0.5rem,1vw,0.75rem)]">
