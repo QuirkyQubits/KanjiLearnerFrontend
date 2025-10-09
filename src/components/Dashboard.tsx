@@ -179,14 +179,7 @@ export default function Dashboard() {
     <div className="dashboard flex flex-col min-h-screen max-w-screen">
       <NavBar />
 
-      <div className="
-        site-content-container bg-amber-200 flex-1
-        grid grid-cols-1 w-full h-full box-border overflow-y-auto
-        sm:grid-cols-3
-        md:grid-cols-2
-        lg:grid-cols-3
-        "
-      >
+      <div className="site-content-container bg-amber-200 flex-1">
         <div className="lessons-reviews-recent-mistakes bg-emerald-400">
           <div className="lessons-reviews bg-teal-400">
             <div className="lessons bg-blue-200">
