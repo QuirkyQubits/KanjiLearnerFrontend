@@ -22,9 +22,9 @@ export default function VerifyEmail() {
   }, [uid, token]);
 
   return (
-    <div className="flex flex-col items-center gap-10 min-h-screen background-color-light">
+    <div className="flex flex-col items-center gap-10 min-h-screen bg-background-light">
       <div className="w-full">
-        <h2 className="text-center mb-4 mt-2 background-color text-lg">
+        <h2 className="text-center mb-4 mt-2 bg-background text-lg">
           Email Verification
         </h2>
       </div>
@@ -35,7 +35,7 @@ export default function VerifyEmail() {
         {isVerified ? (
           <Link
             to="/login"
-            className="rounded-border background-color-light button-hover-color px-4 py-2"
+            className="border rounded bg-background-light hover:bg-background px-4 py-2"
           >
             Go to Login
           </Link>
@@ -49,7 +49,7 @@ export default function VerifyEmail() {
         )}
       </div>
 
-      <div className="background-color w-full">
+      <div className="bg-background w-full">
         <footer className="text-center p-4 text-xs">©KanjiLearner 2025</footer>
       </div>
     </div>

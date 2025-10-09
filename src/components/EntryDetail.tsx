@@ -70,7 +70,7 @@ export default function EntryDetailPage() {
             <button
               onClick={() => planMutation.mutate()}
               disabled={planMutation.isPending || data.in_plan}
-              className="rounded-border background-color-light button-hover-color p-3"
+              className="border rounded bg-background-light hover:bg-background p-3"
             >
               {planMutation.isPending ? "Adding…" : "Add to Lessons / Learn Queue"}
             </button>

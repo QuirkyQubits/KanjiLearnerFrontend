@@ -7,22 +7,6 @@
 }
 
 @layer components {
-    .rounded-border {
-        @apply border rounded;
-    }
-
-    .background-color {
-        @apply bg-background;
-    }
-
-    .background-color-light {
-        @apply bg-background-light;
-    }
-
-    .button-hover-color {
-        @apply hover:bg-background;
-    }
-
     .dashboard-header-link {
         @apply hover:bg-pink-200;
         @apply hover:text-purple-900;

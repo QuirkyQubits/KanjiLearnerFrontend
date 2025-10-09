@@ -28,9 +28,9 @@ export function LoginForm({ onLogin }: { onLogin?: () => void }) {
   };
 
   return (
-    <div className="flex flex-col items-center gap-10 min-h-screen background-color-light">
+    <div className="flex flex-col items-center gap-10 min-h-screen bg-background-light">
       <div className="w-full">
-        <h2 className="text-center mb-4 mt-2 background-color text-lg">Login</h2>
+        <h2 className="text-center mb-4 mt-2 bg-background text-lg">Login</h2>
       </div>
 
       <div className="flex-grow">
@@ -47,7 +47,7 @@ export function LoginForm({ onLogin }: { onLogin?: () => void }) {
           placeholder="Username"
           value={username}
           onChange={e => setUsername(e.target.value)}
-          className="rounded-border background-color mb-6"
+          className="border rounded bg-background mb-6"
         />
         <br/>
 
@@ -61,13 +61,13 @@ export function LoginForm({ onLogin }: { onLogin?: () => void }) {
           placeholder="Password"
           value={password}
           onChange={e => setPassword(e.target.value)}
-          className="rounded-border background-color mb-10"
+          className="border rounded bg-background mb-10"
         />
         <br/>
 
         <button 
           onClick={handleLogin}
-          className="rounded-border background-color-light mb-4 button-hover-color"
+          className="border rounded bg-background-light mb-4 hover:bg-background"
         >
           Log In
         </button>
@@ -83,7 +83,7 @@ export function LoginForm({ onLogin }: { onLogin?: () => void }) {
         </p>
       </div>
 
-      <div className="background-color w-full">
+      <div className="bg-background w-full">
         <footer className="text-center p-4 text-xs">
           ©KanjiLearner 2025
         </footer>

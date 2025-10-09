@@ -20,7 +20,7 @@ function LessonView(props: LessonViewProps) {
       ) : (
         <button
           onClick={() => navigate("/lessons")}
-          className="rounded-border background-color-light mb-4 button-hover-color p-3 m-3"
+          className="border rounded bg-background-light mb-4 hover:bg-background p-3 m-3"
         >
           {`Lessons (${lessonCount}): Start lessons`}
         </button>
@@ -45,7 +45,7 @@ function ReviewsView(props: ReviewsViewProps) {
       ) : (
         <button
           onClick={() => navigate("/reviews")}
-          className="rounded-border background-color-light mb-4 button-hover-color p-3 m-3"
+          className="border rounded bg-background-light mb-4 hover:bg-background p-3 m-3"
         >
           {`Reviews (${reviewCount}): Start reviews`}
         </button>

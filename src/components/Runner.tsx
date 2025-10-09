@@ -160,7 +160,7 @@ export default function Runner({ mode, entries, onComplete }: RunnerProps) {
       <div className="flex flex-row w-screen">
         { !state.flipped &&
           <button 
-            className="rounded-border background-color-light mb-4 button-hover-color w-screen flex-1"
+            className="border rounded bg-background-light mb-4 hover:bg-background w-screen flex-1"
             onClick={() => dispatch({ type: "FLIP" })}
           >
             {state.flipped ? "Hide" : "Flip"}
@@ -169,13 +169,13 @@ export default function Runner({ mode, entries, onComplete }: RunnerProps) {
         { state.flipped &&
           (<>
             <button 
-              className="rounded-border bg-pink-100 mb-4 hover:bg-pink-300 flex-1"
+              className="border rounded bg-pink-100 mb-4 hover:bg-pink-300 flex-1"
               onClick={handleWrong} disabled={!state.flipped}
             >
               Wrong
             </button>
             <button
-              className="rounded-border background-color-light mb-4 hover:bg-emerald-300 flex-1"
+              className="border rounded bg-background-light mb-4 hover:bg-emerald-300 flex-1"
               onClick={handleRight} disabled={!state.flipped}
             >
               Right

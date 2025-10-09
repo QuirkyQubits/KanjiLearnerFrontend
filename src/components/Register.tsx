@@ -23,9 +23,9 @@ export default function Register() {
   };
 
   return (
-    <div className="flex flex-col items-center gap-10 min-h-screen background-color-light">
+    <div className="flex flex-col items-center gap-10 min-h-screen bg-background-light">
       <div className="w-full">
-        <h2 className="text-center mb-4 mt-2 background-color text-lg">
+        <h2 className="text-center mb-4 mt-2 bg-background text-lg">
           Register
         </h2>
       </div>
@@ -44,7 +44,7 @@ export default function Register() {
               placeholder="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="rounded-border background-color w-full"
+              className="border rounded bg-background w-full"
             />
           </div>
 
@@ -57,7 +57,7 @@ export default function Register() {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="rounded-border background-color w-full"
+              className="border rounded bg-background w-full"
             />
           </div>
 
@@ -70,13 +70,13 @@ export default function Register() {
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="rounded-border background-color w-full"
+              className="border rounded bg-background w-full"
             />
           </div>
 
           <button
             type="submit"
-            className="rounded-border background-color-light button-hover-color px-4 py-2"
+            className="border rounded bg-background-light hover:bg-background px-4 py-2"
           >
             Register
           </button>
@@ -92,7 +92,7 @@ export default function Register() {
         {message && <p className="mt-4 text-center">{message}</p>}
       </div>
 
-      <div className="background-color w-full">
+      <div className="bg-background w-full">
         <footer className="text-center p-4 text-xs">
           ©KanjiLearner 2025
         </footer>
