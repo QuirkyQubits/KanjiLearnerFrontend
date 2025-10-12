@@ -24,6 +24,14 @@ export default function App() {
     initCsrf();
   }, []);
 
+  // for debugging
+  useEffect(() => {
+    // Force light mode for testing:
+    document.documentElement.classList.remove('dark');
+
+    // Or force dark mode for testing:
+    // document.documentElement.classList.add('dark');
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
