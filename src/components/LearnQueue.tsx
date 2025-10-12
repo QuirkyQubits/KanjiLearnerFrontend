@@ -29,11 +29,11 @@ export default function LearnQueuePage() {
     );
 
   return (
-    <div className="min-h-screen max-w-screen bg-emerald-200">
+    <div className="min-h-screen max-w-screen bg-background-light">
       <NavBar />
       <div className="p-4 mx-6">
-        <h2 className="text-lg font-bold mb-2">📚 Learn Queue</h2>
-        <h2 className="text-lg font-bold mb-2">
+        <h2 className="text-lg font-bold mb-2 text-text">📚 Learn Queue</h2>
+        <h2 className="text-lg text-text font-bold mb-2">
           {data.length} item{data.length > 1 ? "s" : ""} in queue
         </h2>
         <ul>

@@ -25,7 +25,7 @@ export default function Register() {
   return (
     <div className="flex flex-col items-center gap-10 min-h-screen bg-background-light">
       <div className="w-full">
-        <h2 className="text-center mb-4 mt-2 bg-background text-lg">
+        <h2 className="text-center mb-4 mt-2 bg-background text-lg text-text">
           Register
         </h2>
       </div>
@@ -36,7 +36,7 @@ export default function Register() {
           className="flex flex-col items-center gap-6"
         >
           <div className="w-full max-w-xs">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="username" className="text-text">Username</label>
             <br />
             <input
               id="username"
@@ -44,12 +44,12 @@ export default function Register() {
               placeholder="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="border rounded bg-background w-full"
+              className="border rounded bg-background w-full text-text"
             />
           </div>
 
           <div className="w-full max-w-xs">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password" className="text-text">Password</label>
             <br />
             <input
               id="password"
@@ -57,12 +57,17 @@ export default function Register() {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="border rounded bg-background w-full"
+              className="border rounded bg-background w-full text-text"
             />
           </div>
 
           <div className="w-full max-w-xs">
-            <label htmlFor="email">Email</label>
+            <label
+              htmlFor="email"
+              className="text-text"
+            >
+              Email
+            </label>
             <br />
             <input
               id="email"
@@ -70,18 +75,18 @@ export default function Register() {
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="border rounded bg-background w-full"
+              className="border rounded bg-background w-full text-text"
             />
           </div>
 
           <button
             type="submit"
-            className="border rounded bg-background-light hover:bg-background px-4 py-2"
+            className="border rounded bg-background-light hover:bg-background px-4 py-2 text-text"
           >
             Register
           </button>
 
-          <p className="text-sm text-center">
+          <p className="text-sm text-center text-text">
             Already have an account?{" "}
             <Link to="/login" className="text-blue-600 hover:underline">
               Log in here
@@ -93,7 +98,7 @@ export default function Register() {
       </div>
 
       <div className="bg-background w-full">
-        <footer className="text-center p-4 text-xs">
+        <footer className="text-center p-4 text-xs text-text">
           ©KanjiLearner 2025
         </footer>
       </div>

@@ -79,7 +79,7 @@ export default function Runner({ mode, entries, onComplete }: RunnerProps) {
 
   useEffect(() => {
     dispatch({ type: "RESET", size: entries.length });
-  }, [entries]);
+  }, [entries.length]);
 
   const idx = state.queue.peekFront();
   const currentEntry: UserDictionaryEntry | null =
@@ -133,7 +133,7 @@ export default function Runner({ mode, entries, onComplete }: RunnerProps) {
   }
 
   return (
-    <div>
+    <div className="min-h-screen bg-background text-text flex flex-col">
       {/*
         Debugging block – shows runner header and progress
         Remove when done testing
@@ -160,7 +160,7 @@ export default function Runner({ mode, entries, onComplete }: RunnerProps) {
       <div className="flex flex-row w-screen">
         { !state.flipped &&
           <button 
-            className="border rounded bg-background-light mb-4 hover:bg-background w-screen flex-1"
+            className="border rounded bg-background-light text-text mb-4 hover:bg-background w-screen flex-1"
             onClick={() => dispatch({ type: "FLIP" })}
           >
             {state.flipped ? "Hide" : "Flip"}
@@ -169,13 +169,13 @@ export default function Runner({ mode, entries, onComplete }: RunnerProps) {
         { state.flipped &&
           (<>
             <button 
-              className="border rounded bg-pink-100 mb-4 hover:bg-pink-300 flex-1"
+              className="border rounded bg-pink-100 mb-4 hover:bg-pink-300 text-black flex-1 p-4 m-10"
               onClick={handleWrong} disabled={!state.flipped}
             >
               Wrong
             </button>
             <button
-              className="border rounded bg-background-light mb-4 hover:bg-emerald-300 flex-1"
+              className="border rounded bg-emerald-100 mb-4 hover:bg-emerald-300 text-black flex-1 m-10"
               onClick={handleRight} disabled={!state.flipped}
             >
               Right

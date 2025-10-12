@@ -63,14 +63,14 @@ export default function EntryDetailPage() {
       <NavBar />
       <EntryCard ude={data} flipped={true} showSrsStageOpen={true} />
 
-      <div className="p-4 add-to-learn-queue">
+      <div className="p-4 add-to-learn-queue bg-background-light">
         {/* Show button only if not planned and still locked */}
         {!data.in_plan && data.srs_stage === SRSStage.LOCKED && (
           <>
             <button
               onClick={() => planMutation.mutate()}
               disabled={planMutation.isPending || data.in_plan}
-              className="border rounded bg-background-light hover:bg-background p-3"
+              className="border rounded bg-background-light hover:bg-background p-3 text-text"
             >
               {planMutation.isPending ? "Adding…" : "Add to Lessons / Learn Queue"}
             </button>
@@ -84,9 +84,11 @@ export default function EntryDetailPage() {
           </>
         )}
 
-        {data.in_plan && <p>⭐ In Learn Queue</p>}
-        {data.srs_stage === SRSStage.LESSON && <p>📘 Already in lessons</p>}
-        {data.srs_stage && isLearningStage(data.srs_stage) && <p>✅ Learning / Already learned</p>}
+        <div className="bg-background text-text p-4">
+          {data.in_plan && <p>⭐ In Learn Queue</p>}
+          {data.srs_stage === SRSStage.LESSON && <p>📘 Already in lessons</p>}
+          {data.srs_stage && isLearningStage(data.srs_stage) && <p>✅ Learning / Already learned</p>}
+        </div>
       </div>
     </div>
   );

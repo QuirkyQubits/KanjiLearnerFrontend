@@ -30,13 +30,13 @@ export function LoginForm({ onLogin }: { onLogin?: () => void }) {
   return (
     <div className="flex flex-col items-center gap-10 min-h-screen bg-background-light">
       <div className="w-full">
-        <h2 className="text-center mb-4 mt-2 bg-background text-lg">Login</h2>
+        <h2 className="text-center mb-4 mt-2 bg-background text-lg text-text">Login</h2>
       </div>
 
       <div className="flex-grow">
         <label
           htmlFor="username"
-          className="mb-10"
+          className="mb-10 text-text"
         >
           Username
         </label>
@@ -51,7 +51,10 @@ export function LoginForm({ onLogin }: { onLogin?: () => void }) {
         />
         <br/>
 
-        <label htmlFor="password">
+        <label
+          htmlFor="password"
+          className="mb-10 text-text"
+        >
           Password
         </label>
         <br/>
@@ -67,7 +70,7 @@ export function LoginForm({ onLogin }: { onLogin?: () => void }) {
 
         <button 
           onClick={handleLogin}
-          className="border rounded bg-background-light mb-4 hover:bg-background"
+          className="border rounded bg-background-light mb-4 hover:bg-background text-text px-4 py-2"
         >
           Log In
         </button>
@@ -75,7 +78,7 @@ export function LoginForm({ onLogin }: { onLogin?: () => void }) {
 
         <div className="border-b-1 border-b-gray-400"></div>
 
-        <p className="text-sm text-center">
+        <p className="text-sm text-center text-text">
           Don't have an account?{" "}
           <Link to="/register" className="text-blue-600 hover:underline">
             Register here
@@ -84,7 +87,7 @@ export function LoginForm({ onLogin }: { onLogin?: () => void }) {
       </div>
 
       <div className="bg-background w-full">
-        <footer className="text-center p-4 text-xs">
+        <footer className="text-center p-4 text-xs text-text">
           ©KanjiLearner 2025
         </footer>
       </div>

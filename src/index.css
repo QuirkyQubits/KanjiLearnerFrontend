@@ -1,10 +1,50 @@
 @import "tailwindcss";
 
 @theme {
-    --color-background: #d0fae5;
-    --color-background-light: #ecfdf5;
-    --color-background-dark: #a4f4cf;
+  /* === Backgrounds & Surfaces === */
+  --color-background: oklch(0.98 0.008 80);   /* warm off-white */
+  --color-background-light: oklch(0.995 0.005 80); /* near-white cards */
+  --color-background-dark: oklch(0.93 0.010 80);   /* slightly darker panel */
+
+  /* === Text === */
+  --color-text: oklch(0.20 0.015 80);         /* dark neutral text */
+  --color-text-light: oklch(0.98 0.008 80);   /* light text on primary/dark bg */
+
+  /* === Brand & Accent === */
+  --color-primary: oklch(0.65 0.22 25);       /* vermilion red */
+  --color-secondary: oklch(0.35 0.06 250);    /* deep indigo */
+  --color-accent: oklch(0.70 0.13 200);       /* teal pop */
+
+  /* === Status Colors === */
+  --color-success: oklch(0.60 0.18 145);      /* green 600 equivalent */
+  --color-warning: oklch(0.82 0.19 80);       /* amber 500 equivalent */
+  --color-error: oklch(0.55 0.23 25);         /* red 600 equivalent */
 }
+
+
+@media (prefers-color-scheme: dark) {
+  @theme {
+    /* === Backgrounds & Surfaces === */
+    --color-background: oklch(0.18 0.01 80);   /* deep warm gray */
+    --color-background-light: oklch(0.26 0.015 80); /* slightly lighter panel */
+    --color-background-dark: oklch(0.10 0.008 80);  /* nav / deepest layer */
+
+    /* === Text === */
+    --color-text: oklch(0.97 0.01 80);         /* near-white text */
+    --color-text-light: oklch(0.20 0.015 80);  /* for text on light surfaces, rarely used */
+
+    /* === Brand & Accent === */
+    --color-primary: oklch(0.65 0.22 25);       /* same red (good contrast) */
+    --color-secondary: oklch(0.55 0.08 250);    /* lighter indigo for dark bg */
+    --color-accent: oklch(0.70 0.13 200);       /* teal unchanged (already vibrant) */
+
+    /* === Status Colors (brightened for dark backgrounds) === */
+    --color-success: oklch(0.66 0.19 145);
+    --color-warning: oklch(0.88 0.21 80);
+    --color-error: oklch(0.60 0.25 25);
+  }
+}
+
 
 @layer components {
     .dashboard-header-link {

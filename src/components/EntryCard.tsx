@@ -36,7 +36,7 @@ export function EntryCard({ ude, flipped, showSrsStageOpen = false }: EntryCardP
   );
 
   return (
-    <div>
+    <div className="bg-background-light">
       {!flipped && (
         <div>
           {renderHeader()}
@@ -53,7 +53,7 @@ export function EntryCard({ ude, flipped, showSrsStageOpen = false }: EntryCardP
 
           <div className="px-8 py-4">
             <Details title="Meaning" open={true}>
-              <p>{entry.meaning}</p>
+              <p className="text-text">{entry.meaning}</p>
             </Details>
 
             {(entry.kunyomi_readings.length > 0 ||
@@ -167,11 +167,11 @@ export function EntryCard({ ude, flipped, showSrsStageOpen = false }: EntryCardP
             )}
 
             <Details title="SRS Stage" open={showSrsStageOpen}>
-              <p>{srsStageDisplayMap[ude.srs_stage]}</p>
+              <p className="text-text">{srsStageDisplayMap[ude.srs_stage]}</p>
             </Details>
 
             <Details title="Next Review" open={false}>
-              <p>
+              <p className="text-text">
                 {ude.next_review_at
                   ? new Date(ude.next_review_at).toLocaleString()
                   : "No review scheduled"}

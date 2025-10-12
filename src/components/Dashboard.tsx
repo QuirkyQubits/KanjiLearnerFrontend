@@ -20,7 +20,7 @@ function LessonView(props: LessonViewProps) {
       ) : (
         <button
           onClick={() => navigate("/lessons")}
-          className="border rounded bg-background-light mb-4 hover:bg-background p-3 m-3"
+          className="border rounded bg-fuchsia-200 mb-4 hover:bg-fuchsia-400 p-3 m-3"
         >
           {`Lessons (${lessonCount}): Start lessons`}
         </button>
@@ -45,7 +45,7 @@ function ReviewsView(props: ReviewsViewProps) {
       ) : (
         <button
           onClick={() => navigate("/reviews")}
-          className="border rounded bg-background-light mb-4 hover:bg-background p-3 m-3"
+          className="border rounded bg-sky-200 mb-4 hover:bg-sky-300 p-3 m-3"
         >
           {`Reviews (${reviewCount}): Start reviews`}
         </button>
@@ -65,8 +65,8 @@ function RecentMistakesView({ mistakes }: RecentMistakesViewProps) {
   ).values());
 
   return (
-    <div className="p-5">
-      <h3 className="mb-2 font-semibold">Recent Mistakes</h3>
+    <div className="px-2 py-1">
+      <h3 className="mb-2 font-semibold pb-3">Recent Mistakes</h3>
       {uniqueMistakes.length === 0 ? (
         <div>No recent mistakes 🎉</div>
       ) : (
@@ -179,17 +179,17 @@ export default function Dashboard() {
     <div className="dashboard flex flex-col min-h-screen max-w-screen">
       <NavBar />
 
-      <div className="site-content-container bg-amber-200 flex-1">
-        <div className="lessons-reviews-recent-mistakes bg-emerald-400">
-          <div className="lessons-reviews bg-teal-400">
-            <div className="lessons bg-blue-200">
+      <div className="site-content-container bg-background-light flex-1 px-10">
+        <div className="lessons-reviews-recent-mistakes bg-background-light">
+          <div className="lessons-reviews bg-background-light">
+            <div className="lessons bg-background-dark rounded-lg shadow p-4 m-2">
               {lessonsLoading ? (
                 <div>Loading lessons…</div>
               ) : (
                 <LessonView lessons={lessons ?? []} />
               )}
             </div>
-            <div className="reviews bg-emerald-500">
+            <div className="reviews bg-background-dark rounded-lg shadow p-4 m-2">
               {reviewsLoading ? (
                 <div>Loading reviews…</div>
               ) : (
@@ -197,7 +197,7 @@ export default function Dashboard() {
               )}
             </div>
           </div>
-          <div className="recent-mistakes">
+          <div className="recent-mistakes bg-background-dark rounded-lg shadow p-4 m-2 text-text">
             {mistakesLoading ? (
               <div>Loading mistakes…</div>
             ) : (
@@ -205,7 +205,7 @@ export default function Dashboard() {
             )}
           </div>
         </div>
-        <div className="review-forecast bg-teal-300">
+        <div className="review-forecast bg-background-dark rounded-lg shadow p-4 m-2 text-text">
           {forecastLoading ? (
             <div>Loading forecast…</div>
           ) : (
@@ -213,8 +213,8 @@ export default function Dashboard() {
           )}
         </div>
       </div>
-      <div className="site-footer-container bg-emerald-200 min-h-6 max-h-12 text-[clamp(0.5rem,1vw,0.75rem)]">
-        Placeholder dashboard footer
+      <div className="site-footer-container bg-background min-h-6 max-h-12 text-[clamp(0.5rem,1vw,0.75rem)] text-text">
+        ©KanjiLearner 2025
       </div>
     </div>
   );

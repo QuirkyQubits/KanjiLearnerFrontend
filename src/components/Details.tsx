@@ -8,7 +8,7 @@ export interface DetailsProps {
 
 export default function Details({ title, children, open }: DetailsProps) {
   return (
-    <details open={open}>
+    <details className="bg-background text-text px-4 py-2" open={open}>
       <summary>{title}</summary>
       <div>{children}</div>
     </details>

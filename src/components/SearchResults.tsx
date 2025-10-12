@@ -67,11 +67,11 @@ export default function SearchResults() {
   // console.log("q:", q, "page:", page, "page_size:", pageSize);
 
   return (
-    <div className="min-h-screen max-w-screen bg-emerald-200">
+    <div className="min-h-screen max-w-screen bg-background">
       <NavBar />
       <div className="p-4 mx-6">
-        <h2 className="text-lg font-bold mb-2">Search</h2>
-        <h2 className="text-lg font-bold mb-2">
+        <h2 className="text-lg font-bold mb-2 text-text">Search</h2>
+        <h2 className="text-lg font-bold mb-2 text-text">
           Page {page}, results {startIndex}-{endIndex} out of {data.count} for "{q}"
         </h2>
         <ul className="">

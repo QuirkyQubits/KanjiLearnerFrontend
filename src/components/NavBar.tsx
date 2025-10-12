@@ -28,7 +28,7 @@ export default function NavBar() {
   return (
     <>
       {/* Top nav bar */}
-      <div className="site-header-container bg-emerald-200 min-h-10 max-h-16">
+      <div className="site-header-container bg-background min-h-10 max-h-16">
         <nav>
           <div className="flex flex-row items-center justify-between px-2">
             <div className="flex flex-row">
@@ -51,7 +51,7 @@ export default function NavBar() {
             <div className="">
               <button
                 onClick={handleLogout}
-                className="dashboard-header-link"
+                className="dashboard-header-link text-text"
               >
                 Logout ↩️
               </button>
@@ -62,18 +62,18 @@ export default function NavBar() {
 
       {/* Toggle search bar */}
       {showSearch && (
-        <div className="search-container flex flex-row items-center gap-2 p-4 pb-6 bg-emerald-300">
+        <div className="search-container flex flex-row items-center gap-2 p-4 pb-6 bg-background-light">
           <form onSubmit={handleSearch} className="flex flex-row gap-2 w-full max-w-md">
             <input
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search for radicals, kanji, or vocab..."
-              className="border rounded px-2 py-0.5 w-full"
+              className="border rounded px-2 py-0.5 w-full text-text"
             />
             <button
               type="submit"
-              className="px-3 py-1 bg-emerald-500 text-white rounded p-2 hover:bg-emerald-600"
+              className="px-3 py-1 bg-slate-200 text-black rounded p-2 hover:bg-emerald-200"
             >
               Search
             </button>
