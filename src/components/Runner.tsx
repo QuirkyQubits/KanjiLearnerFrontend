@@ -157,7 +157,7 @@ export default function Runner({ mode, entries, onComplete }: RunnerProps) {
         />
       )}
 
-      <div className="flex flex-row w-full">
+      <div className="flex w-full gap-4 px-4 py-4">
         { !state.flipped &&
           <button 
             className="border rounded bg-background-light text-text mb-4 hover:bg-background w-full flex-1"
@@ -169,13 +169,13 @@ export default function Runner({ mode, entries, onComplete }: RunnerProps) {
         { state.flipped &&
           (<>
             <button 
-              className="border rounded bg-pink-100 mb-4 hover:bg-pink-300 text-black flex-1 p-4 m-10"
+              className="border rounded bg-pink-100 p-4 hover:bg-pink-300 text-black flex-1"
               onClick={handleWrong} disabled={!state.flipped}
             >
               Wrong
             </button>
             <button
-              className="border rounded bg-emerald-100 mb-4 hover:bg-emerald-300 text-black flex-1 m-10"
+              className="border rounded bg-emerald-100 p-4 hover:bg-emerald-300 text-black flex-1"
               onClick={handleRight} disabled={!state.flipped}
             >
               Right

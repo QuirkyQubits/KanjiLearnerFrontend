@@ -85,7 +85,7 @@ export function EntryCard({ ude, flipped, showSrsStageOpen = false }: EntryCardP
 
             {entry.constituents?.length > 0 && (
               <Details title="Constituents" open={true}>
-                <ul className="flex flex-wrap gap-2">
+                <ul className="flex flex-wrap gap-4">
                   {entry.constituents.map((c) => (
                     <li
                       key={`constituents-${c.id}`}
@@ -127,7 +127,7 @@ export function EntryCard({ ude, flipped, showSrsStageOpen = false }: EntryCardP
             {entry.used_in?.length > 0 && (
               <>
                 <Details title="Used In" open={true}>
-                  <ul className="flex flex-wrap gap-2">
+                  <ul className="flex flex-wrap gap-4">
                     {entry.used_in.map((u) => (
                       <li
                         key={`used_in-${u.id}`}
@@ -148,7 +148,7 @@ export function EntryCard({ ude, flipped, showSrsStageOpen = false }: EntryCardP
             {entry.visually_similar?.length > 0 && (
               <>
                 <Details title="Visually Similar" open={true}>
-                  <ul className="flex flex-wrap gap-2">
+                  <ul className="flex flex-wrap gap-4">
                     {entry.visually_similar.map((v) => (
                       <li
                         key={`visually_similar-${v.id}`}

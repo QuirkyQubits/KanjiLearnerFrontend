@@ -63,7 +63,7 @@ export default function EntryDetailPage() {
       <NavBar />
       <EntryCard ude={data} flipped={true} showSrsStageOpen={true} />
 
-      <div className="p-4 add-to-learn-queue bg-background-light">
+      <div className="px-8 py-4 add-to-learn-queue bg-background-light">
         {/* Show button only if not planned and still locked */}
         {!data.in_plan && data.srs_stage === SRSStage.LOCKED && (
           <>
