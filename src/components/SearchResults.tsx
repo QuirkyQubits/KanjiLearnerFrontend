@@ -67,7 +67,7 @@ export default function SearchResults() {
   // console.log("q:", q, "page:", page, "page_size:", pageSize);
 
   return (
-    <div className="min-h-screen max-w-screen bg-background">
+    <div className="min-h-screen max-w-screen bg-background-light">
       <NavBar />
       <div className="p-4 mx-6">
         <h2 className="text-lg font-bold mb-2 text-text">Search</h2>
@@ -94,14 +94,14 @@ export default function SearchResults() {
 
         <div className="mt-4 flex gap-2">
           <button
-            className="px-3 py-1 bg-gray-200 rounded"
+            className="px-3 py-1 rounded bg-background hover:bg-background-dark p-3 text-text"
             disabled={!data.previous}
             onClick={() => goToPage(page - 1)}
           >
             Previous
           </button>
           <button
-            className="px-3 py-1 bg-gray-200 rounded"
+            className="px-3 py-1 rounded bg-background hover:bg-background-dark p-3 text-text"
             disabled={!data.next}
             onClick={() => goToPage(page + 1)}
           >

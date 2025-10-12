@@ -20,7 +20,7 @@ function LessonView(props: LessonViewProps) {
       ) : (
         <button
           onClick={() => navigate("/lessons")}
-          className="border rounded bg-fuchsia-200 mb-4 hover:bg-fuchsia-400 p-3 m-3"
+          className="border rounded bg-fuchsia-200 mb-4 hover:bg-fuchsia-400 p-3 m-3 text-black"
         >
           {`Lessons (${lessonCount}): Start lessons`}
         </button>
@@ -45,7 +45,7 @@ function ReviewsView(props: ReviewsViewProps) {
       ) : (
         <button
           onClick={() => navigate("/reviews")}
-          className="border rounded bg-sky-200 mb-4 hover:bg-sky-300 p-3 m-3"
+          className="border rounded bg-sky-200 mb-4 hover:bg-sky-300 p-3 m-3 text-black"
         >
           {`Reviews (${reviewCount}): Start reviews`}
         </button>
@@ -123,7 +123,7 @@ function ReviewForecastView({ forecast }: ReviewForecastViewProps) {
 
   return (
     <div className="p-5">
-      <h3>Review Forecast</h3>
+      <h3 className="mb-6">Review Forecast</h3>
       {isEmpty ? (
         <div>No reviews due in the next 7 days 🎉</div>
       ) : (
@@ -213,7 +213,7 @@ export default function Dashboard() {
           )}
         </div>
       </div>
-      <div className="site-footer-container bg-background min-h-6 max-h-12 text-[clamp(0.5rem,1vw,0.75rem)] text-text">
+      <div className="site-footer-container bg-background min-h-6 max-h-12 text-[clamp(0.5rem,1vw,0.75rem)] text-text text-center p-4">
         ©KanjiLearner 2025
       </div>
     </div>

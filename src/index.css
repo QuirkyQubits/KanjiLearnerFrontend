@@ -80,47 +80,20 @@
   html, body {
     @apply overflow-x-auto;
   }
+
+  html, body, #root {
+    height: 100%;
+    @apply bg-background text-text;
+  }
 }
 
 /* Small screens (phones) */
-@media (max-width: 300px) {
+@media (max-width: 400px) {
   
 }
 
-/* Medium screens (tablets) */
-@media (min-width: 301px) and (max-width: 700px) {
-    .site-content-container {
-        @apply grid-cols-3;
-    }
-
-    .lessons-reviews-recent-mistakes {
-        @apply col-start-1 col-end-3 grid [grid-template-rows:2fr_1fr];
-    }
-
-    .review-forecast {
-        @apply col-start-3 col-end-4;
-    }
-
-    .lessons-reviews {
-        @apply row-start-1 row-end-2 grid;
-        grid-template-columns: subgrid;
-    }
-
-    .recent-mistakes {
-        @apply row-start-2 row-end-3;
-    }
-
-    .lessons {
-        @apply row-start-1 row-end-2;
-    }
-
-    .reviews {
-        @apply row-start-2 row-end-3;
-    }
-}
-
 /* Large screens (desktops) */
-@media (min-width: 701px) and (max-width: 1100px) {
+@media (min-width: 401px) and (max-width: 1100px) {
     .site-content-container {
         @apply grid-cols-2;
     }

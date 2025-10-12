@@ -59,7 +59,7 @@ export default function EntryDetailPage() {
   if (!data) return <p>No entry found</p>;
 
   return (
-    <div>
+    <div className="min-h-screen bg-background-light text-text flex flex-col">
       <NavBar />
       <EntryCard ude={data} flipped={true} showSrsStageOpen={true} />
 
@@ -84,11 +84,13 @@ export default function EntryDetailPage() {
           </>
         )}
 
-        <div className="bg-background text-text p-4">
-          {data.in_plan && <p>⭐ In Learn Queue</p>}
-          {data.srs_stage === SRSStage.LESSON && <p>📘 Already in lessons</p>}
-          {data.srs_stage && isLearningStage(data.srs_stage) && <p>✅ Learning / Already learned</p>}
-        </div>
+        {(data.in_plan || data.srs_stage === SRSStage.LESSON || isLearningStage(data.srs_stage)) && (
+          <div className="bg-background text-text p-4 mt-4 rounded">
+            {data.in_plan && <p>⭐ In Learn Queue</p>}
+            {data.srs_stage === SRSStage.LESSON && <p>📘 Already in lessons</p>}
+            {data.srs_stage && isLearningStage(data.srs_stage) && <p>✅ Learning / Already learned</p>}
+          </div>
+        )}
       </div>
     </div>
   );

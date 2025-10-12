@@ -133,7 +133,7 @@ export default function Runner({ mode, entries, onComplete }: RunnerProps) {
   }
 
   return (
-    <div className="min-h-screen bg-background text-text flex flex-col">
+    <div className="min-h-screen bg-background text-text flex flex-col overflow-x-hidden">
       {/*
         Debugging block – shows runner header and progress
         Remove when done testing
@@ -157,10 +157,10 @@ export default function Runner({ mode, entries, onComplete }: RunnerProps) {
         />
       )}
 
-      <div className="flex flex-row w-screen">
+      <div className="flex flex-row w-full">
         { !state.flipped &&
           <button 
-            className="border rounded bg-background-light text-text mb-4 hover:bg-background w-screen flex-1"
+            className="border rounded bg-background-light text-text mb-4 hover:bg-background w-full flex-1"
             onClick={() => dispatch({ type: "FLIP" })}
           >
             {state.flipped ? "Hide" : "Flip"}
