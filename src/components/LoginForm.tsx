@@ -14,12 +14,12 @@ export function LoginForm({ onLogin }: { onLogin?: () => void }) {
     api.get("/csrf/").catch(err => console.error("CSRF init failed:", err));
   }, []);
 
-  const handleLogin = async () => {
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
       await api.post("/login/", { username, password });
-
       setError("");
-      onLogin?.();  // sets isLoggedIn=true in App
+      onLogin?.(); // sets isLoggedIn=true in App
       navigate("/dashboard");
     } catch (err) {
       console.error("Login failed:", err);
@@ -29,63 +29,64 @@ export function LoginForm({ onLogin }: { onLogin?: () => void }) {
 
   return (
     <div className="flex flex-col items-center gap-10 min-h-screen bg-background-light">
+      {/* Header */}
       <div className="w-full">
-        <h2 className="text-center mb-4 mt-2 bg-background text-lg text-text">Login</h2>
+        <h2 className="text-center p-4 mb-4 mt-2 bg-background text-lg text-text">
+          Login
+        </h2>
       </div>
 
+      {/* Form container */}
       <div className="flex-grow">
-        <label
-          htmlFor="username"
-          className="mb-10 text-text"
+        <form
+          onSubmit={handleLogin}
+          className="flex flex-col items-center gap-6"
         >
-          Username
-        </label>
-        <br/>
-        <input
-          id="username"
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={e => setUsername(e.target.value)}
-          className="border rounded bg-background mb-6"
-        />
-        <br/>
+          <div className="w-full max-w-xs">
+            <label htmlFor="username" className="text-text">Username</label>
+            <br />
+            <input
+              id="username"
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="border rounded bg-background w-full text-text"
+            />
+          </div>
 
-        <label
-          htmlFor="password"
-          className="mb-10 text-text"
-        >
-          Password
-        </label>
-        <br/>
-        <input
-          id="password"
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          className="border rounded bg-background mb-10"
-        />
-        <br/>
+          <div className="w-full max-w-xs">
+            <label htmlFor="password" className="text-text">Password</label>
+            <br />
+            <input
+              id="password"
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="border rounded bg-background w-full text-text"
+            />
+          </div>
 
-        <button 
-          onClick={handleLogin}
-          className="border rounded bg-background-light mb-4 hover:bg-background text-text px-4 py-2"
-        >
-          Log In
-        </button>
-        {error && <p>{error}</p>}
+          <button
+            type="submit"
+            className="border rounded bg-background-light hover:bg-background px-4 py-2 text-text"
+          >
+            Log In
+          </button>
 
-        <div className="border-b-1 border-b-gray-400"></div>
+          {error && <p className="bg-error text-sm text-center">{error}</p>}
 
-        <p className="text-sm text-center text-text">
-          Don't have an account?{" "}
-          <Link to="/register" className="text-blue-600 hover:underline">
-            Register here
-          </Link>
-        </p>
+          <p className="text-sm text-center text-text">
+            Don't have an account?{" "}
+            <Link to="/register" className="text-blue-600 hover:underline">
+              Register here
+            </Link>
+          </p>
+        </form>
       </div>
 
+      {/* Footer */}
       <div className="bg-background w-full">
         <footer className="text-center p-4 text-xs text-text">
           ©KanjiLearner 2025

@@ -51,7 +51,7 @@ export default function NavBar() {
             <div className="">
               <button
                 onClick={handleLogout}
-                className="dashboard-header-link text-text"
+                className="dashboard-header-link"
               >
                 Logout ↩️
               </button>

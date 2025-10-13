@@ -25,7 +25,7 @@ export default function Register() {
   return (
     <div className="flex flex-col items-center gap-10 min-h-screen bg-background-light">
       <div className="w-full">
-        <h2 className="text-center mb-4 mt-2 bg-background text-lg text-text">
+        <h2 className="text-center p-4 mb-4 mt-2 bg-background text-lg text-text">
           Register
         </h2>
       </div>
