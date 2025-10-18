@@ -53,7 +53,7 @@ export default function ItemSpreadView({ itemSpread }: ItemSpreadViewProps) {
         return (
           <div
             key={stage}
-            className="flex justify-between items-center p-3 rounded-lg bg-background-light shadow-sm"
+            className="flex justify-between items-center p-3 rounded-lg bg-background shadow-sm"
           >
             {/* Stage name */}
             <span className="font-semibold text-sm sm:text-base">
@@ -63,19 +63,19 @@ export default function ItemSpreadView({ itemSpread }: ItemSpreadViewProps) {
             {/* Inner flexbox for radicals / kanji / vocab counts */}
             <div className="flex gap-2">
               <div
-                className={`${entryTypeColors[EntryType.RADICAL]} text-text px-3 py-1 rounded text-sm font-bold`}
+                className={`${entryTypeColors[EntryType.RADICAL]} text-text px-5 py-0.75 rounded-full text-sm font-bold`}
                 title="Radicals"
               >
                 {counts.radicals}
               </div>
               <div
-                className={`${entryTypeColors[EntryType.KANJI]} text-text px-3 py-1 rounded text-sm font-bold`}
+                className={`${entryTypeColors[EntryType.KANJI]} text-text px-5 py-0.75 rounded-full text-sm font-bold`}
                 title="Kanji"
               >
                 {counts.kanji}
               </div>
               <div
-                className={`${entryTypeColors[EntryType.VOCAB]} text-text px-3 py-1 rounded text-sm font-bold`}
+                className={`${entryTypeColors[EntryType.VOCAB]} text-text px-5 py-0.75 rounded-full text-sm font-bold`}
                 title="Vocabulary"
               >
                 {counts.vocab}
