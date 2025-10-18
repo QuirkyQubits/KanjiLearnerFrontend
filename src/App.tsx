@@ -75,6 +75,7 @@ export default function App() {
             queryClient.invalidateQueries({ queryKey: ["reviews"] }),
             queryClient.invalidateQueries({ queryKey: ["mistakes"] }),
             queryClient.invalidateQueries({ queryKey: ["review-forecast"] }),
+            queryClient.invalidateQueries({ queryKey: ["item-spread"] }),
           ]);
           navigate("/dashboard");
         }}
@@ -100,6 +101,7 @@ export default function App() {
             queryClient.invalidateQueries({ queryKey: ["reviews"] }),
             queryClient.invalidateQueries({ queryKey: ["mistakes"] }),
             queryClient.invalidateQueries({ queryKey: ["review-forecast"] }),
+            queryClient.invalidateQueries({ queryKey: ["item-spread"] }),
           ]);
           navigate("/dashboard");
         }}

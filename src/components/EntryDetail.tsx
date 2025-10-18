@@ -40,13 +40,8 @@ export default function EntryDetailPage() {
       await api.post("/plan_add/", { entry_id: id });
     },
     onSuccess: () => {
-      // Refresh this entry so in_plan / srs_stage updates
       queryClient.invalidateQueries({ queryKey: ["entry", id] });
-
-      // Invalidate learn queue list
       queryClient.invalidateQueries({ queryKey: ["learn-queue"] });
-
-      // Invalidate dashboard lesson list
       queryClient.invalidateQueries({ queryKey: ["lessons"] });
 
       alert("Added to your learning queue!");

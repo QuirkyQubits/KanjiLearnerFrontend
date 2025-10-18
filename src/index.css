@@ -111,23 +111,24 @@ so you have to change it in two places */
 }
 
 /* Small screens (phones) */
-@media (max-width: 400px) {
-  
+@media (max-width: 500px) {
+  .itemspread-legend {
+    display: none;
+  }
 }
 
 /* Large screens (desktops) */
-@media (min-width: 401px) and (max-width: 1100px) {
+@media (min-width: 501px) and (max-width: 1100px) {
     .site-content-container {
         @apply grid-cols-2;
     }
 
-    .lessons-reviews-recent-mistakes {
-        @apply col-start-1 col-end-3;
+    .lessons-reviews-recent-mistakes-itemspread {
+        @apply col-start-1 col-end-3 grid grid-rows-[auto_auto_auto_auto];
     }
 
     .lessons-reviews {
-        @apply grid;
-        grid-template-columns: subgrid;
+        @apply grid grid-cols-2 col-start-1 col-end-3;
     }
 
     .lessons {
@@ -138,39 +139,52 @@ so you have to change it in two places */
         @apply col-start-2 col-end-3;
     }
 
+    .recent-mistakes {
+        @apply row-start-2 row-end-3 col-start-1 col-end-3;
+    }
+
+    .item-spread {
+        @apply row-start-3 row-end-4 col-start-1 col-end-3;
+    }
+
     .review-forecast {
-        @apply col-start-1 col-end-3;
+        @apply col-start-1 col-end-3 row-start-4 row-end-5;
     }
 }
 
-/* Ultra large screens */
+/* Ultra large screens (wide desktop, 3-column layout) */
 @media (min-width: 1101px) {
     .site-content-container {
-        @apply grid-cols-3 h-full;
-        @apply grid-rows-1;
+        @apply grid grid-cols-3 grid-rows-1 h-full;
     }
 
-    .lessons-reviews-recent-mistakes {
-        @apply col-start-1 col-end-3 grid grid-rows-2 h-full;
+    /* Left 2/3 column group (lessons + reviews + mistakes + item spread) */
+    .lessons-reviews-recent-mistakes-itemspread {
+        @apply col-start-1 col-end-3 grid grid-rows-[auto_auto_auto] h-full;
     }
 
     .lessons-reviews {
-        @apply row-start-1 row-end-2 grid grid-rows-2;
-    }
-
-    .recent-mistakes { 
-        @apply row-start-2 row-end-3;
-    }
-
-    .review-forecast {
-        @apply col-start-3 col-end-4;
+      @apply row-start-1 row-end-2 col-start-1 col-end-3 grid grid-cols-2 w-full;
     }
 
     .lessons {
-        @apply row-start-1 row-end-2;
+        @apply col-start-1 col-end-2;
     }
 
     .reviews {
-        @apply row-start-2 row-end-3;
+        @apply col-start-2 col-end-3;
+    }
+
+    .recent-mistakes {
+        @apply row-start-2 row-end-3 col-start-1 col-end-3;
+    }
+
+    .item-spread {
+        @apply row-start-3 row-end-4 col-start-1 col-end-3;
+    }
+
+    /* Rightmost column (forecast panel) */
+    .review-forecast {
+        @apply col-start-3 col-end-4 row-start-1 row-end-4;
     }
 }

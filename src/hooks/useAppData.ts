@@ -32,6 +32,16 @@ export function useMistakes() {
   });
 }
 
+export function useItemSpread() {
+  return useQuery({
+    queryKey: ["item-spread"],
+    queryFn: async () => {
+      const res = await api.get("/item_spread");
+      return res.data;
+    },
+  });
+}
+
 export function useForecast(timezone: string) {
   return useQuery({
     queryKey: ["review-forecast", timezone],

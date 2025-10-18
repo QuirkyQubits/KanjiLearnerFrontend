@@ -3,7 +3,8 @@ import { UserDictionaryEntry } from "../models/UserDictionaryEntry";
 import type { ReviewForecast } from "../models/ReviewForecast";
 import NavBar from "./NavBar";
 import { entryTypeColors } from "../models/EntryTypeColors";
-import { useForecast, useLessons, useMistakes, useReviews } from "../hooks/useAppData";
+import { useForecast, useItemSpread, useLessons, useMistakes, useReviews } from "../hooks/useAppData";
+import ItemSpreadView from "./ItemSpreadView";
 
 interface LessonViewProps {
   lessons: UserDictionaryEntry[];
@@ -174,13 +175,14 @@ export default function Dashboard() {
   const { data: reviews, isLoading: reviewsLoading } = useReviews();
   const { data: mistakes, isLoading: mistakesLoading } = useMistakes();
   const { data: forecast, isLoading: forecastLoading } = useForecast(timezone);
+  const { data: itemSpread, isLoading: itemSpreadLoading } = useItemSpread();
 
   return (
     <div className="dashboard flex flex-col min-h-screen max-w-screen">
       <NavBar />
 
       <div className="site-content-container bg-background-light flex-1 px-10">
-        <div className="lessons-reviews-recent-mistakes bg-background-light">
+        <div className="lessons-reviews-recent-mistakes-itemspread bg-background-light">
           <div className="lessons-reviews bg-background-light">
             <div className="lessons bg-background-dark rounded-lg shadow p-4 m-2">
               {lessonsLoading ? (
@@ -202,6 +204,23 @@ export default function Dashboard() {
               <div>Loading mistakes…</div>
             ) : (
               <RecentMistakesView mistakes={mistakes ?? []} />
+            )}
+          </div>
+          <div className="item-spread bg-background-dark rounded-lg shadow p-4 m-2 text-text">
+            {itemSpreadLoading ? (
+              <div>Loading item spread...</div>
+            ) : (
+              <ItemSpreadView
+                itemSpread={
+                  itemSpread ?? {
+                    apprentice: { radicals: 0, kanji: 0, vocab: 0 },
+                    guru: { radicals: 0, kanji: 0, vocab: 0 },
+                    master: { radicals: 0, kanji: 0, vocab: 0 },
+                    enlightened: { radicals: 0, kanji: 0, vocab: 0 },
+                    burned: { radicals: 0, kanji: 0, vocab: 0 },
+                  }
+                }
+              />
             )}
           </div>
         </div>
