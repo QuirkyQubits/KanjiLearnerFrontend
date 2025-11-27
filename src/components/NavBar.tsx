@@ -46,6 +46,10 @@ export default function NavBar() {
               <Link to="/learn-queue" className="dashboard-header-link">
                 ⭐ 
               </Link>
+
+              <Link to="/wk-forecast" className="dashboard-header-link">
+                🔮 WaniKani
+              </Link>
             </div>
 
             <div className="">

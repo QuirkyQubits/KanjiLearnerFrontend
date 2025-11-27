@@ -13,6 +13,7 @@ import Register from "./components/Register";
 import VerifyEmail from "./components/VerifyEmail";
 import { useLessons, useReviews } from "./hooks/useAppData";
 import { useQueryClient } from "@tanstack/react-query";
+import WaniKaniForecastPage from "./components/WaniKaniForecastPage";
 
 
 export default function App() {
@@ -203,6 +204,11 @@ export default function App() {
       <Route
         path="/verify-email/:uid/:token"
         element={<VerifyEmail />}
+      />
+
+      <Route
+        path="/wk-forecast"
+        element={<WaniKaniForecastPage />}
       />
     </Routes>
   );

@@ -1,10 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import { UserDictionaryEntry } from "../models/UserDictionaryEntry";
-import type { ReviewForecast } from "../models/ReviewForecast";
 import NavBar from "./NavBar";
 import { entryTypeColors } from "../models/EntryTypeColors";
 import { useForecast, useItemSpread, useLessons, useMistakes, useReviews } from "../hooks/useAppData";
 import ItemSpreadView from "./ItemSpreadView";
+import ReviewForecastView from "./ReviewForecastView";
 
 interface LessonViewProps {
   lessons: UserDictionaryEntry[];
@@ -96,78 +96,6 @@ function RecentMistakesView({ mistakes }: RecentMistakesViewProps) {
 }
 
 
-interface ReviewForecastViewProps {
-  forecast: ReviewForecast;
-}
-
-
-function ReviewForecastView({ forecast }: ReviewForecastViewProps) {
-  const isEmpty = Object.keys(forecast).length === 0;
-
-  // Build local "YYYY-MM-DD" for today (no UTC round-trip)
-  const getLocalYmd = (d: Date) => {
-    const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, "0");
-    const day = String(d.getDate()).padStart(2, "0");
-    return `${y}-${m}-${day}`;
-  };
-  const todayStr = getLocalYmd(new Date());
-
-  // Force English weekday names
-  const weekdayEn = new Intl.DateTimeFormat("en-US", { weekday: "long" });
-
-  // Parse "YYYY-MM-DD" into a *local* Date (avoid UTC parsing)
-  const parseYmdLocal = (ymd: string) => {
-    const [y, m, d] = ymd.split("-").map(Number);
-    return new Date(y, m - 1, d); // local time
-  };
-
-  return (
-    <div className="p-5">
-      <h3 className="mb-6">Review Forecast</h3>
-      {isEmpty ? (
-        <div>No reviews due in the next 7 days 🎉</div>
-      ) : (
-        <div>
-          {Object.entries(forecast)
-            .sort(([a], [b]) => a.localeCompare(b))
-            .map(([date, hours]) => {
-              const entries = Object.entries(hours);
-              const dailyTotal = entries.reduce((sum, [, data]) => sum + data.count, 0);
-              const nonZeroHours = entries.filter(([, data]) => data.count > 0);
-
-              // Label: Today for today; otherwise English weekday
-              const label =
-                date === todayStr ? "Today" : weekdayEn.format(parseYmdLocal(date));
-
-              return (
-                <details key={date} className="mb-4" open={date === todayStr}>
-                  <summary className="cursor-pointer font-semibold">
-                    {label} ({dailyTotal} review{dailyTotal !== 1 ? "s" : ""})
-                  </summary>
-
-                  {/* Show hourly breakdown only when there are reviews; empty section otherwise */}
-                  {nonZeroHours.length > 0 && (
-                    <ul className="ml-6 mt-2 list-disc">
-                      {nonZeroHours
-                        .sort(([a], [b]) => Number(a) - Number(b))
-                        .map(([hour, data]) => (
-                          <li key={hour}>
-                            {hour}:00 → +{data.count} (total {data.cumulative})
-                          </li>
-                        ))}
-                    </ul>
-                  )}
-                </details>
-              );
-            })}
-        </div>
-      )}
-    </div>
-  );
-}
-
-
 export default function Dashboard() {
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -228,7 +156,7 @@ export default function Dashboard() {
           {forecastLoading ? (
             <div>Loading forecast…</div>
           ) : (
-            <ReviewForecastView forecast={forecast ?? {}} />
+            <ReviewForecastView forecast={forecast ?? {}} title="Review Forecast" />
           )}
         </div>
       </div>
