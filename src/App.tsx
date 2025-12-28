@@ -14,6 +14,7 @@ import VerifyEmail from "./components/VerifyEmail";
 import { useLessons, useReviews } from "./hooks/useAppData";
 import { useQueryClient } from "@tanstack/react-query";
 import WaniKaniForecastPage from "./components/WaniKaniForecastPage";
+import LiveMirrorPage from "./components/LiveMirrorPage";
 
 
 export default function App() {
@@ -209,6 +210,15 @@ export default function App() {
       <Route
         path="/wk-forecast"
         element={<WaniKaniForecastPage />}
+      />
+
+      <Route
+        path="/scratch"
+        element={
+          <RequireAuth isLoggedIn={isLoggedIn}>
+            <LiveMirrorPage />
+          </RequireAuth>
+        }
       />
     </Routes>
   );

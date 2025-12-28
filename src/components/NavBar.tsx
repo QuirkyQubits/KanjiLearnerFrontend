@@ -48,7 +48,11 @@ export default function NavBar() {
               </Link>
 
               <Link to="/wk-forecast" className="dashboard-header-link">
-                🔮 WaniKani
+                🔮 
+              </Link>
+
+              <Link to="/scratch" className="dashboard-header-link">
+                ✍️
               </Link>
             </div>
 
