@@ -1,11 +1,33 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../lib/axios";
 
 export default function NavBar() {
   const [showSearch, setShowSearch] = useState(false);
   const [query, setQuery] = useState("");
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (showSearch) {
+      searchInputRef.current?.focus();
+    }
+  }, [showSearch]);
+
+
+  useEffect(() => {
+    if (!showSearch) return;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setShowSearch(false);
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [showSearch]);
+
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,6 +99,7 @@ export default function NavBar() {
         <div className="search-container flex flex-row items-center gap-2 p-4 pb-6 bg-background-light">
           <form onSubmit={handleSearch} className="flex flex-row gap-2 w-full max-w-md">
             <input
+              ref={searchInputRef}
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
