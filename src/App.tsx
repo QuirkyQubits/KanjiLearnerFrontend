@@ -15,6 +15,7 @@ import { useLessons, useReviews } from "./hooks/useAppData";
 import { useQueryClient } from "@tanstack/react-query";
 import WaniKaniForecastPage from "./components/WaniKaniForecastPage";
 import LiveMirrorPage from "./components/LiveMirrorPage";
+import BackloggerPage from "./components/BackloggerPage";
 
 
 export default function App() {
@@ -217,6 +218,15 @@ export default function App() {
         element={
           <RequireAuth isLoggedIn={isLoggedIn}>
             <LiveMirrorPage />
+          </RequireAuth>
+        }
+      />
+
+      <Route
+        path="/backlogger"
+        element={
+          <RequireAuth isLoggedIn={isLoggedIn}>
+            <BackloggerPage />
           </RequireAuth>
         }
       />

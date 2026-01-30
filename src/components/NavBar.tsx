@@ -54,6 +54,10 @@ export default function NavBar() {
               <Link to="/scratch" className="dashboard-header-link">
                 ✍️
               </Link>
+
+              <Link to="/backlogger" className="dashboard-header-link">
+                📝
+              </Link>
             </div>
 
             <div className="">
