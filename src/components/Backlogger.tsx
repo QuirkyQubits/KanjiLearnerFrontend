@@ -108,7 +108,11 @@ export function Backlogger() {
             URL.revokeObjectURL(removed.src);
           }
 
-          // Adjust indices so UI doesn’t desync
+          setStretches([]); // invalidate stretches
+          setIsMarkingStretch(false);
+          setPendingStretchStart(null);
+          setPersistentToast(null);
+
           setActiveIndex(i => Math.max(i - 1, 0));
           setWindowStart(w => Math.max(w - 1, 0));
         }
