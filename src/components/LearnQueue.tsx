@@ -19,7 +19,7 @@ export default function LearnQueuePage() {
   if (isError) return <p>Error loading learn queue</p>;
   if (!data || data.length === 0)
     return (
-      <div className="min-h-screen bg-emerald-200">
+      <div className="min-h-screen bg-background-light">
         <NavBar />
         <div className="p-4 mx-6">
           <h2 className="text-lg font-bold mb-2">📚 Learn Queue</h2>
