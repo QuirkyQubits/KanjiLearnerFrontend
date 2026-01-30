@@ -14,6 +14,7 @@ type Stretch = {
 
 const WINDOW_SIZE = 5;
 const SLOT_WIDTH = 300;
+const MAX_IMAGES = 10;
 
 export function Backlogger() {
   const [images, setImages] = useState<ImageEntry[]>([]);
@@ -98,6 +99,18 @@ export function Backlogger() {
             speaker: "",
             dialogue: "",
           });
+        }
+
+        // HARD CAP: evict oldest images
+        while (next.length > MAX_IMAGES) {
+          const removed = next.shift();
+          if (removed) {
+            URL.revokeObjectURL(removed.src);
+          }
+
+          // Adjust indices so UI doesn’t desync
+          setActiveIndex(i => Math.max(i - 1, 0));
+          setWindowStart(w => Math.max(w - 1, 0));
         }
 
         return next;
