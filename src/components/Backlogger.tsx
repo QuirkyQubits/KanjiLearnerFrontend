@@ -205,6 +205,27 @@ export function Backlogger() {
     setPersistentToast(null);
   };
 
+  /* ---------------- Copy image for Anki ---------------- */
+
+  async function copyImageForAnki(imgSrc: string, setToast: (msg: string) => void) {
+    try {
+      const res = await fetch(imgSrc);
+      const blob = await res.blob();
+
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          [blob.type]: blob,
+        }),
+      ]);
+
+      setToast("Image copied to clipboard");
+    } catch (err) {
+      console.error(err);
+      setToast("Failed to copy image");
+    }
+  }
+
+
   /* ---------------- Render ---------------- */
 
   return (
@@ -289,6 +310,16 @@ export function Backlogger() {
                   >
                     Export
                   </button>
+                  
+                  <br />
+
+                  <button
+                    onClick={() => copyImageForAnki(img.src, setToast)}
+                    className="px-2 py-1 text-sm border rounded"
+                  >
+                    Copy image
+                  </button>
+
 
                   <input
                     placeholder="Speaker"
