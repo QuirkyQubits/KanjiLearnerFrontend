@@ -112,10 +112,9 @@ export function Backlogger() {
           setIsMarkingStretch(false);
           setPendingStretchStart(null);
           setPersistentToast(null);
-
-          setActiveIndex(i => Math.max(i - 1, 0));
-          setWindowStart(w => Math.max(w - 1, 0));
         }
+
+        setActiveIndex(next.length - 1);
 
         return next;
       });
